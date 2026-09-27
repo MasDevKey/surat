@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surat Cinta Spesial ❤️</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Sacramento&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: {
+                            950: '#0c0714',
+                            900: '#160d27',
+                            800: '#25173e',
+                            700: '#382057',
+                        },
+                        velvet: {
+                            100: '#ffd1dc',
+                            300: '#ff8da9',
+                            500: '#ff6b8b',
+                            600: '#e63956',
+                            700: '#8b1022',
+                            900: '#42060f',
+                        },
+                        gold: '#ffd700',
+                    },
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        handwriting: ['"Sacramento"', 'cursive'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom Aesthetics CSS -->
+    <style>
+        /* Custom Glowing Dark Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(12, 7, 20, 0.95);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 107, 139, 0.35);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 107, 139, 0.7);
+        }
+
+        /* Dark Glassmorphism Container */
+        .dark-glass {
+            background: rgba(22, 13, 39, 0.88);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 107, 139, 0.22);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85), 0 0 30px rgba(255, 107, 139, 0.12);
+        }
+
+        /* 3D Envelope Perspective */
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+
+        /* Pulsing Glow Animation */
+        @keyframes glowPulse {
+            0%, 100% { box-shadow: 0 0 15px rgba(255, 107, 139, 0.3); }
+            50% { box-shadow: 0 0 32px rgba(255, 107, 139, 0.8); }
+        }
+        .animate-glow {
+            animation: glowPulse 2.5s infinite ease-in-out;
+        }
+
+        /* Floating Animation for Envelope */
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(1deg); }
+        }
+        .animate-float {
+            animation: floatSlow 4s ease-in-out infinite;
+        }
+
+        /* Typing Cursor Glow Effect */
+        .type-cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.1em;
+            background-color: #ff6b8b;
+            margin-left: 2px;
+            vertical-align: middle;
+            box-shadow: 0 0 8px #ff6b8b;
+            animation: blinkCursor 0.8s infinite;
+        }
+
+        @keyframes blinkCursor {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+    </style>
+</head>
+
+<body class="bg-dark-950 text-slate-200 font-sans min-h-screen overflow-x-hidden relative selection:bg-velvet-500 selection:text-white">
+
+    <!-- Interactive Glowing Background Canvas -->
+    <canvas id="heartCanvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
+
+    <!-- Floating Audio Control Widget -->
+    <div id="musicWidget" class="fixed top-5 right-5 z-50 opacity-0 transition-all duration-500 transform -translate-y-2 pointer-events-none">
+        <button id="musicToggleBtn" onclick="toggleAudio()" class="flex items-center gap-2 bg-dark-900/90 backdrop-blur-md px-4 py-2 rounded-full border border-velvet-500/30 text-xs sm:text-sm font-medium text-velvet-100 hover:bg-dark-800 transition-all transform hover:scale-105 active:scale-95 shadow-xl shadow-black/60">
+            <span id="musicIcon" class="text-base animate-spin" style="animation-duration: 3s;">🎵</span>
+            <span id="musicText">Music On</span>
+        </button>
+    </div>
+
+    <!-- MAIN APP CONTAINER -->
+    <main class="relative z-10 flex items-center justify-center min-h-screen p-4 sm:p-6 md:p-8">
+
+        <!-- STAGE 1: 3D PHYSICAL ENVELOPE -->
+        <section id="step1" class="w-full max-w-md mx-auto transition-all duration-700 transform opacity-100 scale-100">
+            <div class="text-center mb-6">
+                <span class="inline-block bg-dark-900/90 text-velvet-300 text-xs sm:text-sm font-medium px-4 py-1.5 rounded-full backdrop-blur-sm border border-velvet-500/30 shadow-lg animate-pulse">
+                    💌 Ada sesuatu untukmu...
+                </span>
+            </div>
+
+            <div class="perspective-1000 py-6">
+                <div id="envelope" class="animate-float relative w-80 h-52 sm:w-96 sm:h-60 mx-auto rounded-2xl bg-gradient-to-b from-dark-900 to-dark-950 border border-velvet-500/30 shadow-[0_25px_60px_rgba(0,0,0,0.85),0_0_25px_rgba(255,107,139,0.15)] flex items-center justify-center">
+                    
+                    <!-- Inside Letter Paper Peek Preview -->
+                    <div id="letterPaper" class="absolute w-[88%] h-[85%] bg-dark-800 border border-velvet-500/30 rounded-xl p-4 text-center text-velvet-100 shadow-inner transition-all duration-1000 ease-in-out z-10 flex flex-col justify-center items-center">
+                        <span class="text-2xl mb-1">📜</span>
+                        <p class="font-serif italic text-xs sm:text-sm text-velvet-300">Surat cinta rahasia khusus untukmu...</p>
+                    </div>
+
+                    <!-- Envelope Pocket Flaps -->
+                    <div class="absolute inset-0 bg-dark-900/95 rounded-l-2xl z-20 pointer-events-none" style="clip-path: polygon(0 0, 52% 50%, 0 100%);"></div>
+                    <div class="absolute inset-0 bg-dark-900/95 rounded-r-2xl z-20 pointer-events-none" style="clip-path: polygon(100% 0, 48% 50%, 100% 100%);"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-dark-800 to-dark-900 rounded-b-2xl z-20 pointer-events-none" style="clip-path: polygon(0 100%, 50% 48%, 100% 100%); border-bottom: 1px solid rgba(255, 107, 139, 0.2);"></div>
+
+                    <!-- 3D Rotating Top Flap -->
+                    <div id="envelopeFlap" class="absolute inset-0 bg-gradient-to-b from-dark-700 to-dark-800 rounded-t-2xl origin-top transition-all duration-700 ease-in-out z-30" style="clip-path: polygon(0 0, 100% 0, 50% 55%);"></div>
+
+                    <!-- Wax Seal / Open Envelope Button -->
+                    <div id="waxSealContainer" class="absolute z-40 top-[52%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-all duration-500">
+                        <button onclick="openPhysicalEnvelope()" class="animate-glow group relative inline-flex items-center justify-center p-0.5 overflow-hidden rounded-full font-medium transition-all duration-300 hover:scale-105 active:scale-95">
+                            <span class="px-5 py-3 bg-gradient-to-r from-velvet-900 via-velvet-700 to-velvet-900 rounded-full text-white text-xs sm:text-sm font-semibold flex items-center gap-2 border border-gold/60 shadow-lg">
+                                <span>Buka Surat</span>
+                                <span class="text-base group-hover:scale-125 transition-transform">❤️</span>
+                            </span>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+            
+            <p class="text-center text-xs text-slate-400 mt-4 font-light">Ketuk segel lilin untuk membuka amplop</p>
+        </section>
+
+        <!-- STAGE 2: "DIBACA YAA..." PREVIEW -->
+        <section id="step2" class="w-full max-w-md mx-auto hidden transition-all duration-700 transform opacity-0 scale-95">
+            <div class="dark-glass rounded-2xl p-8 sm:p-10 text-center relative overflow-hidden border border-velvet-500/30">
+                
+                <div class="w-12 h-1 bg-velvet-500/40 mx-auto rounded-full mb-8"></div>
+
+                <div class="py-6 space-y-3">
+                    <h1 class="font-serif text-3xl sm:text-4xl font-bold text-velvet-100 tracking-wide">
+                        Dibaca yaa...
+                    </h1>
+                    <p class="text-xs sm:text-sm text-velvet-300 font-medium tracking-wide">
+                        Aku membuat ini khusus untuk kamu ❤️
+                    </p>
+                </div>
+
+                <div class="w-12 h-1 bg-velvet-500/40 mx-auto rounded-full mt-2 mb-8"></div>
+
+                <!-- Read Letter Button (Triggers Audio & Step 3 Typewriter) -->
+                <button onclick="goToStep3()" class="w-full py-3.5 px-6 bg-gradient-to-r from-velvet-700 to-velvet-900 hover:from-velvet-600 hover:to-velvet-700 text-white font-semibold rounded-xl shadow-lg shadow-velvet-700/30 transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2 group">
+                    <span>Baca Surat</span>
+                    <span class="group-hover:rotate-12 transition-transform">💌</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- STAGE 3: FULL LOVE LETTER WITH TYPEWRITER ANIMATION -->
+        <section id="step3" class="w-full max-w-2xl mx-auto hidden transition-all duration-700 transform opacity-0 translate-y-8 my-6">
+            
+            <div class="dark-glass rounded-2xl p-6 sm:p-10 md:p-12 relative border border-velvet-500/30">
+                
+                <!-- Header Stamp -->
+                <div class="flex justify-between items-center mb-8 border-b border-velvet-500/20 pb-4">
+                    <div class="text-left">
+                        <span class="text-xs uppercase tracking-widest text-velvet-300 font-semibold">Digital Love Letter</span>
+                        <p class="text-xs text-slate-400 mt-0.5">Disampaikan dengan tulus dari hati</p>
+                    </div>
+                    <div class="text-2xl opacity-90">💌</div>
+                </div>
+
+                <!-- Letter Recipient Title -->
+                <div class="mb-6">
+                    <h2 class="font-serif text-3xl sm:text-4xl font-bold text-velvet-100 mb-1">
+                        Untuk <span class="receiver-name-target text-velvet-300">Nama Dia</span> ❤️
+                    </h2>
+                </div>
+
+                <!-- Typewriter Target Container -->
+                <div id="typewriterBody" class="font-serif text-slate-200 text-lg sm:text-xl leading-relaxed space-y-6 text-justify sm:text-left min-h-[250px]">
+                    <!-- Typed text paragraphs will be appended here character-by-character -->
+                </div>
+
+                <!-- Letter Sign-off (Appears after typing) -->
+                <div id="letterSignoff" class="text-right mt-8 pt-4 border-t border-velvet-500/20 opacity-0 transition-opacity duration-700">
+                    <p class="text-xs text-slate-400">Dari seseorang yang mengagumimu,</p>
+                    <p class="font-handwriting text-3xl sm:text-4xl text-velvet-300 mt-1 font-bold">
+                        <span class="sender-name-target">Nama Kamu</span>
+                    </p>
+                </div>
+
+                <!-- PROPOSAL BUTTONS (HIDDEN UNTIL TYPING ANIMATION COMPLETES) -->
+                <div id="actionButtons" class="mt-10 opacity-0 translate-y-8 transition-all duration-1000 hidden">
+                    <div class="p-5 bg-dark-900/90 rounded-2xl border border-velvet-500/40 text-center shadow-xl">
+                        <p class="text-sm text-velvet-100 mb-4 font-medium">Pilihlah dengan sejujurnya dari hatimu ❤️</p>
+                        
+                        <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+                            <!-- Terima Button -->
+                            <button onclick="handleResponse('accept')" class="w-full sm:w-auto flex-1 py-3.5 px-6 bg-gradient-to-r from-velvet-500 to-velvet-700 hover:from-velvet-600 hover:to-velvet-900 text-white font-semibold rounded-xl shadow-lg shadow-velvet-500/30 transition-all transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2">
+                                <span>❤️ Terima</span>
+                            </button>
+
+                            <!-- Tolak Button (Triggers Confirmation UI) -->
+                            <button onclick="showRejectConfirm()" class="w-full sm:w-auto flex-1 py-3.5 px-6 bg-dark-800 hover:bg-dark-700 text-slate-300 font-semibold rounded-xl border border-slate-600/50 transition-all transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2">
+                                <span>💔 Tolak</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- CONFIRMATION MODAL BEFORE REJECTION -->
+    <div id="confirmModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-500">
+        <div id="confirmCard" class="dark-glass max-w-md w-full rounded-2xl p-6 sm:p-8 text-center border border-velvet-500/40 shadow-2xl transform scale-90 transition-transform duration-500 relative">
+            <div class="w-16 h-16 mx-auto rounded-full bg-dark-800 text-velvet-300 flex items-center justify-center text-3xl mb-4 shadow-lg border border-velvet-500/30">
+                🥺
+            </div>
+            <h3 class="font-serif text-2xl sm:text-3xl font-bold text-velvet-100 mb-3">
+                Apakah kamu yakin??
+            </h3>
+            <p class="text-slate-300 text-sm sm:text-base mb-6 font-light leading-relaxed">
+                Coba pikirkan sekali lagi yaa... Beneran mau nolak? 💔
+            </p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+                <!-- Kembali Button -->
+                <button onclick="hideRejectConfirm()" class="w-full sm:w-auto flex-1 py-3 px-5 bg-gradient-to-r from-velvet-500 to-velvet-700 hover:from-velvet-600 hover:to-velvet-800 text-white font-semibold rounded-xl shadow-lg transition-all transform hover:-translate-y-0.5 active:translate-y-0">
+                    ✨ Kembali
+                </button>
+                <!-- Yakin Button -->
+                <button onclick="confirmReject()" class="w-full sm:w-auto flex-1 py-3 px-5 bg-dark-800 hover:bg-dark-700 text-slate-400 hover:text-slate-200 font-semibold rounded-xl border border-slate-600/50 transition-all transform hover:-translate-y-0.5 active:translate-y-0">
+                    💔 Yakin
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- RESPONSE RESULT MODAL OVERLAY (NO CLOSE BUTTON) -->
+    <div id="responseModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-500">
+        
+        <div id="modalCard" class="dark-glass max-w-md w-full rounded-2xl p-6 sm:p-8 text-center border border-velvet-500/40 shadow-2xl transform scale-90 transition-transform duration-500 relative">
+            
+            <div id="modalIcon" class="w-20 h-20 mx-auto rounded-full flex items-center justify-center text-4xl mb-4 shadow-md">
+                ❤️
+            </div>
+
+            <h3 id="modalTitle" class="font-serif text-2xl sm:text-3xl font-bold text-velvet-100 mb-3">
+                <!-- Dynamic Title -->
+            </h3>
+
+            <p id="modalBody1" class="text-slate-200 text-sm sm:text-base mb-2">
+                <!-- Dynamic Message Line 1 -->
+            </p>
+
+            <div id="modalBody2" class="p-3.5 bg-dark-900/90 rounded-xl border border-velvet-500/30 text-velvet-300 text-xs sm:text-sm font-medium my-4">
+                <!-- Dynamic Message Line 2 (Proof Photo Request) -->
+            </div>
+
+            <!-- Note: No Close Button as requested -->
+        </div>
+
+    </div>
+
+    <!-- JAVASCRIPT SECTION -->
+    <script>
+        /* ==========================================================================
+           1. CONFIGURATION (EASY TO EDIT)
+           ========================================================================== */
+        const CONFIG = {
+            senderName: "Varel",
+            receiverName: "Kanza",
+            audioUrl: "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-piano-112199.mp3", // Link file musik audio
+            typingSpeed: 32, // Kecepatan ketik (milidetik per karakter)
+        };
+
+        /* ==========================================================================
+           2. STATE & DOM ELEMENTS
+           ========================================================================== */
+        let audioPlayer = null;
+        let isAudioPlaying = false;
+
+        const step1 = document.getElementById('step1');
+        const step2 = document.getElementById('step2');
+        const step3 = document.getElementById('step3');
+        const envelopeFlap = document.getElementById('envelopeFlap');
+        const letterPaper = document.getElementById('letterPaper');
+        const waxSealContainer = document.getElementById('waxSealContainer');
+        const musicWidget = document.getElementById('musicWidget');
+        const musicIcon = document.getElementById('musicIcon');
+        const musicText = document.getElementById('musicText');
+        const typewriterBody = document.getElementById('typewriterBody');
+        const letterSignoff = document.getElementById('letterSignoff');
+        const actionButtons = document.getElementById('actionButtons');
+        const responseModal = document.getElementById('responseModal');
+        const modalCard = document.getElementById('modalCard');
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set dynamic names from CONFIG
+            document.querySelectorAll('.receiver-name-target').forEach(el => el.textContent = CONFIG.receiverName || "Kamu");
+            document.querySelectorAll('.sender-name-target').forEach(el => el.textContent = CONFIG.senderName || "Aku");
+
+            initAudio();
+            initHeartCanvas();
+        });
+
+        /* ==========================================================================
+           3. BACKGROUND FLOATING GLOWING HEARTS CANVAS
+           ========================================================================== */
+        function initHeartCanvas() {
+            const canvas = document.getElementById('heartCanvas');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+
+            class Particle {
+                constructor() {
+                    this.reset();
+                }
+
+                reset() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = canvas.height + Math.random() * 20;
+                    this.size = Math.random() * 10 + 5;
+                    this.speedY = Math.random() * 0.7 + 0.3;
+                    this.speedX = Math.sin(Math.random() * Math.PI) * 0.3;
+                    this.opacity = Math.random() * 0.6 + 0.2;
+                    this.isHeart = Math.random() > 0.25;
+                }
+
+                update() {
+                    this.y -= this.speedY;
+                    this.x += this.speedX;
+                    if (this.y < -30) {
+                        this.reset();
+                    }
+                }
+
+                draw() {
+                    ctx.save();
+                    ctx.globalAlpha = this.opacity;
+                    ctx.shadowBlur = 10;
+                    ctx.shadowColor = '#ff6b8b';
+                    ctx.fillStyle = '#ff6b8b';
+
+                    if (this.isHeart) {
+                        ctx.beginPath();
+                        const topCurveHeight = this.size * 0.3;
+                        ctx.moveTo(this.x, this.y + topCurveHeight);
+                        ctx.bezierCurveTo(
+                            this.x, this.y, 
+                            this.x - this.size / 2, this.y, 
+                            this.x - this.size / 2, this.y + topCurveHeight
+                        );
+                        ctx.bezierCurveTo(
+                            this.x - this.size / 2, this.y + (this.size + topCurveHeight) / 2, 
+                            this.x, this.y + this.size, 
+                            this.x, this.y + this.size
+                        );
+                        ctx.bezierCurveTo(
+                            this.x, this.y + this.size, 
+                            this.x + this.size / 2, this.y + (this.size + topCurveHeight) / 2, 
+                            this.x + this.size / 2, this.y + topCurveHeight
+                        );
+                        ctx.bezierCurveTo(
+                            this.x + this.size / 2, this.y, 
+                            this.x, this.y, 
+                            this.x, this.y + topCurveHeight
+                        );
+                        ctx.fill();
+                    } else {
+                        ctx.beginPath();
+                        ctx.arc(this.x, this.y, this.size / 3, 0, Math.PI * 2);
+                        ctx.fillStyle = '#ffd700';
+                        ctx.shadowColor = '#ffd700';
+                        ctx.fill();
+                    }
+                    ctx.restore();
+                }
+            }
+
+            for (let i = 0; i < 30; i++) {
+                particles.push(new Particle());
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    p.update();
+                    p.draw();
+                });
+                requestAnimationFrame(animate);
+            }
+            animate();
+        }
+
+        /* ==========================================================================
+           4. STAGE TRANSITIONS & ENVELOPE ANIMATION
+           ========================================================================== */
+        function openPhysicalEnvelope() {
+            waxSealContainer.classList.add('scale-0', 'opacity-0');
+
+            // Rotate flap 180deg open
+            envelopeFlap.style.transform = 'rotateX(180deg)';
+            envelopeFlap.style.zIndex = '5';
+
+            // Slide letter paper up out of envelope pocket
+            setTimeout(() => {
+                letterPaper.style.transform = 'translateY(-110px) scale(1.05)';
+                letterPaper.style.zIndex = '25';
+            }, 300);
+
+            // Transition to Stage 2
+            setTimeout(() => {
+                goToStep2();
+            }, 1200);
+        }
+
+        function goToStep2() {
+            step1.classList.add('opacity-0', 'scale-95');
+            setTimeout(() => {
+                step1.classList.add('hidden');
+                step2.classList.remove('hidden');
+                void step2.offsetWidth;
+                step2.classList.remove('opacity-0', 'scale-95');
+                step2.classList.add('opacity-100', 'scale-100');
+            }, 600);
+        }
+
+        function goToStep3() {
+            // Play audio upon clicking Baca Surat
+            playAudio();
+
+            // Reveal music floating widget
+            musicWidget.classList.remove('opacity-0', 'pointer-events-none', 'translate-y--2');
+
+            step2.classList.add('opacity-0', 'scale-95');
+            setTimeout(() => {
+                step2.classList.add('hidden');
+                step3.classList.remove('hidden');
+                void step3.offsetWidth;
+                step3.classList.remove('opacity-0', 'translate-y-8');
+                step3.classList.add('opacity-100', 'translate-y-0');
+
+                step3.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+                // Start typewriter animation for letter
+                startLetterTypewriter();
+            }, 600);
+        }
+
+        /* ==========================================================================
+           5. AUDIO PLAYER MANAGEMENT
+           ========================================================================== */
+        function initAudio() {
+            if (CONFIG.audioUrl && CONFIG.audioUrl.trim() !== "") {
+                audioPlayer = new Audio();
+                audioPlayer.src = CONFIG.audioUrl.trim();
+                audioPlayer.loop = true;
+            }
+        }
+
+        function playAudio() {
+            if (audioPlayer && CONFIG.audioUrl.trim() !== "") {
+                audioPlayer.play().then(() => {
+                    isAudioPlaying = true;
+                    updateMusicUI(true);
+                }).catch(err => {
+                    console.log("Audio playback notice:", err);
+                    isAudioPlaying = false;
+                    updateMusicUI(false);
+                });
+            }
+        }
+
+        function toggleAudio() {
+            if (!audioPlayer || !CONFIG.audioUrl.trim()) return;
+
+            if (isAudioPlaying) {
+                audioPlayer.pause();
+                isAudioPlaying = false;
+                updateMusicUI(false);
+            } else {
+                audioPlayer.play().then(() => {
+                    isAudioPlaying = true;
+                    updateMusicUI(true);
+                }).catch(err => console.log(err));
+            }
+        }
+
+        function updateMusicUI(playing) {
+            if (playing) {
+                musicIcon.classList.add('animate-spin');
+                musicText.textContent = "Music On";
+            } else {
+                musicIcon.classList.remove('animate-spin');
+                musicText.textContent = "Music Off";
+            }
+        }
+
+        /* ==========================================================================
+           6. TYPEWRITER ANIMATION & AUTOMATIC PROPOSAL BUTTON REVEAL
+           ========================================================================== */
+        function getLetterParagraphs() {
+            const receiver = CONFIG.receiverName || "Kamu";
+            return [
+                `Entah harus mulai dari mana... Mungkin ada banyak sekali hal yang ingin aku sampaikan, tapi tidak semuanya bisa aku ungkapkan secara langsung saat menatap matamu.`,
+                `Sejak kamu hadir dalam hariku, ada banyak warna baru yang rasanya belum pernah aku lihat sebelumnya. Kehadiranmu bukan cuma melengkapi hari-hariku, tapi juga memberikan ketenangan luar biasa yang selama ini tidak pernah aku bayangkan.`,
+                `Aku sering memperhatikan bagaimana caramu bersikap, caramu berbicara, dan merespons hal-hal di sekitarmu. Tanpa kamu sadari, setiap momen sederhana bersamamu selalu berhasil membuatku tersenyum dan bersyukur.`,
+                `Aku sadar bahwa tidak ada manusia yang sempurna, dan aku pun jauh dari kata sempurna. Tapi jika diperbolehkan, aku ingin belajar menjadi seseorang yang bisa terus ada untukmu, menemani langkahmu, mendengarkan ceritamu, dan merayakan setiap kebahagiaan bersamamu.`,
+                `Terima kasih sudah bersabar membaca surat ini dari awal sampai akhir.`,
+                `Jadi... setelah membaca semua ini, aku ingin menanyakan satu hal yang paling tulus dari hatiku.`,
+                `"Maukah kamu menerima cintaku?" ❤️`
+            ];
+        }
+
+        function startLetterTypewriter() {
+            typewriterBody.innerHTML = ""; // Clear existing content
+            const paragraphs = getLetterParagraphs();
+            let pIndex = 0;
+            let charIndex = 0;
+
+            // Create blinking cursor element
+            const cursor = document.createElement('span');
+            cursor.className = 'type-cursor';
+
+            function typeNextChar() {
+                if (pIndex >= paragraphs.length) {
+                    // TYPEWRITER COMPLETE
+                    if (cursor.parentNode) cursor.parentNode.removeChild(cursor);
+                    
+                    // Reveal sign-off
+                    letterSignoff.classList.remove('opacity-0');
+                    letterSignoff.classList.add('opacity-100');
+
+                    // AUTOMATICALLY REVEAL PROPOSAL BUTTONS ONLY AFTER TYPING FINISHES
+                    setTimeout(() => {
+                        revealActionButtons();
+                    }, 500);
+                    return;
+                }
+
+                // Check if current paragraph element exists or needs creation
+                let currentP = typewriterBody.children[pIndex];
+                if (!currentP) {
+                    currentP = document.createElement('p');
+                    if (pIndex === paragraphs.length - 1) {
+                        // Highlight question
+                        currentP.className = "text-center text-xl sm:text-2xl font-bold text-velvet-300 italic my-6 pt-4 border-t border-velvet-500/20";
+                    } else if (pIndex === paragraphs.length - 2) {
+                        currentP.className = "font-bold text-velvet-100 text-xl sm:text-2xl pt-4";
+                    }
+                    typewriterBody.appendChild(currentP);
+                    currentP.appendChild(cursor);
+                }
+
+                const currentText = paragraphs[pIndex];
+                
+                if (charIndex < currentText.length) {
+                    // Append character
+                    const textNode = document.createTextNode(currentText.charAt(charIndex));
+                    if (cursor.parentNode !== currentP) {
+                        currentP.appendChild(cursor);
+                    }
+                    currentP.insertBefore(textNode, cursor);
+                    charIndex++;
+
+                    // Dynamic scroll while typing if needed
+                    window.scrollTo({
+                        top: document.body.scrollHeight,
+                        behavior: 'smooth'
+                    });
+
+                    setTimeout(typeNextChar, CONFIG.typingSpeed || 35);
+                } else {
+                    // Move to next paragraph
+                    pIndex++;
+                    charIndex = 0;
+                    setTimeout(typeNextChar, 350); // Pause briefly between paragraphs
+                }
+            }
+
+            typeNextChar();
+        }
+
+        function revealActionButtons() {
+            actionButtons.classList.remove('hidden');
+            void actionButtons.offsetWidth;
+            actionButtons.classList.remove('opacity-0', 'translate-y-8');
+            actionButtons.classList.add('opacity-100', 'translate-y-0');
+
+            // Smooth scroll to the revealed proposal buttons
+            actionButtons.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        /* ==========================================================================
+           7. REACTION MODAL HANDLERS
+           ========================================================================== */
+        const confirmModal = document.getElementById('confirmModal');
+        const confirmCard = document.getElementById('confirmCard');
+
+        function showRejectConfirm() {
+            confirmModal.classList.remove('pointer-events-none', 'opacity-0');
+            confirmModal.classList.add('opacity-100');
+            confirmCard.classList.remove('scale-90');
+            confirmCard.classList.add('scale-100');
+        }
+
+        function hideRejectConfirm() {
+            confirmModal.classList.remove('opacity-100');
+            confirmModal.classList.add('pointer-events-none', 'opacity-0');
+            confirmCard.classList.remove('scale-100');
+            confirmCard.classList.add('scale-90');
+        }
+
+        function confirmReject() {
+            hideRejectConfirm();
+            setTimeout(() => {
+                handleResponse('reject');
+            }, 300);
+        }
+
+        function handleResponse(type) {
+            const modalIcon = document.getElementById('modalIcon');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody1 = document.getElementById('modalBody1');
+            const modalBody2 = document.getElementById('modalBody2');
+
+            if (type === 'accept') {
+                modalIcon.className = "w-20 h-20 mx-auto rounded-full bg-velvet-900/80 text-velvet-300 flex items-center justify-center text-4xl mb-4 shadow-lg border border-velvet-500/40";
+                modalIcon.textContent = "❤️";
+                modalTitle.textContent = "Terimakasih sudah menerima cintaku ❤️";
+                modalBody1.textContent = "Aku benar-benar senang mendengar jawabanmu.";
+                modalBody2.textContent = "Mohon kirim bukti foto ini kepadaku yaa 📸";
+            } else {
+                modalIcon.className = "w-20 h-20 mx-auto rounded-full bg-dark-800 text-slate-400 flex items-center justify-center text-4xl mb-4 shadow-lg border border-slate-600/40";
+                modalIcon.textContent = "🥲";
+                modalTitle.textContent = "Yahh... kayaknya aku memang tidak pantas buat kamu 🥲";
+                modalBody1.textContent = "Tidak apa-apa, terima kasih sudah membaca surat ini sampai selesai.";
+                modalBody2.textContent = "Kirim bukti foto ini kepadaku yaa 📸";
+            }
+
+            responseModal.classList.remove('pointer-events-none', 'opacity-0');
+            responseModal.classList.add('opacity-100');
+            modalCard.classList.remove('scale-90');
+            modalCard.classList.add('scale-100');
+        }
+    </script>
+</body>
+</html>
