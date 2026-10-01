@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="id" class="scroll-smooth">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Surat Cinta Spesial ❤️</title>
-
+    <title>Surat Cinta Digital - Untuk Kanza ❤️</title>
+    
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Sacramento&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Lora:ital,wght@0,400;0,600;1,400&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -17,679 +17,822 @@
             theme: {
                 extend: {
                     colors: {
-                        dark: {
-                            950: '#0c0714',
-                            900: '#160d27',
-                            800: '#25173e',
-                            700: '#382057',
+                        rosepink: {
+                            50: '#fff1f2',
+                            100: '#ffe4e6',
+                            200: '#fecdd3',
+                            300: '#fda4af',
+                            400: '#fb7185',
+                            500: '#f43f5e',
+                            600: '#e11d48',
+                            700: '#be123c',
                         },
-                        velvet: {
-                            100: '#ffd1dc',
-                            300: '#ff8da9',
-                            500: '#ff6b8b',
-                            600: '#e63956',
-                            700: '#8b1022',
-                            900: '#42060f',
-                        },
-                        gold: '#ffd700',
+                        cream: '#fdfbf7',
                     },
                     fontFamily: {
-                        serif: ['"Cormorant Garamond"', 'serif'],
-                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-                        handwriting: ['"Sacramento"', 'cursive'],
+                        script: ['Dancing Script', 'cursive'],
+                        serif: ['Lora', 'serif'],
+                        sans: ['Poppins', 'sans-serif'],
                     }
                 }
             }
         }
     </script>
 
-    <!-- Custom Aesthetics CSS -->
     <style>
-        /* Custom Glowing Dark Scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: rgba(12, 7, 20, 0.95);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: rgba(255, 107, 139, 0.35);
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 107, 139, 0.7);
+        body {
+            background: linear-gradient(135deg, #fff0f3 0%, #ffe5ec 40%, #ffc2d1 70%, #ffb3c1 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            font-family: 'Poppins', sans-serif;
+            user-select: none;
+            -webkit-user-select: none;
         }
 
-        /* Dark Glassmorphism Container */
-        .dark-glass {
-            background: rgba(22, 13, 39, 0.88);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 107, 139, 0.22);
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85), 0 0 30px rgba(255, 107, 139, 0.12);
+        /* Canvas Elements */
+        #bgCanvas, #confettiCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
         }
+        #bgCanvas { z-index: 1; }
+        #confettiCanvas { z-index: 99; }
 
-        /* 3D Envelope Perspective */
+        /* 3D Envelope Perspective & Container */
         .perspective-1000 {
             perspective: 1000px;
         }
 
-        /* Pulsing Glow Animation */
-        @keyframes glowPulse {
-            0%, 100% { box-shadow: 0 0 15px rgba(255, 107, 139, 0.3); }
-            50% { box-shadow: 0 0 32px rgba(255, 107, 139, 0.8); }
-        }
-        .animate-glow {
-            animation: glowPulse 2.5s infinite ease-in-out;
-        }
-
-        /* Floating Animation for Envelope */
-        @keyframes floatSlow {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-8px) rotate(1deg); }
-        }
-        .animate-float {
-            animation: floatSlow 4s ease-in-out infinite;
+        .envelope-wrapper {
+            position: relative;
+            width: 310px;
+            height: 210px;
+            background-color: #f7a3b5;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+            box-shadow: 0 20px 35px rgba(225, 29, 72, 0.25), 0 5px 15px rgba(0,0,0,0.08);
+            cursor: pointer;
+            transition: transform 0.4s ease;
         }
 
-        /* Typing Cursor Glow Effect */
-        .type-cursor {
-            display: inline-block;
-            width: 2px;
-            height: 1.1em;
-            background-color: #ff6b8b;
+        @media (min-width: 640px) {
+            .envelope-wrapper {
+                width: 380px;
+                height: 250px;
+            }
+        }
+
+        .envelope-wrapper:hover {
+            transform: translateY(-5px) scale(1.02);
+        }
+
+        /* 3D Envelope Flap */
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 155px solid transparent;
+            border-right: 155px solid transparent;
+            border-top: 115px solid #f43f5e;
+            transform-origin: top;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), z-index 0.2s;
+            z-index: 5;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        @media (min-width: 640px) {
+            .envelope-flap {
+                border-left-width: 190px;
+                border-right-width: 190px;
+                border-top-width: 135px;
+            }
+        }
+
+        .envelope-flap.open {
+            transform: rotateX(180deg);
+            z-index: 1;
+        }
+
+        /* Envelope Front Pocket */
+        .envelope-pocket {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 155px solid #fb7185;
+            border-right: 155px solid #fb7185;
+            border-bottom: 115px solid #fda4af;
+            border-top: 95px solid transparent;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+            z-index: 4;
+        }
+
+        @media (min-width: 640px) {
+            .envelope-pocket {
+                border-left-width: 190px;
+                border-right-width: 190px;
+                border-bottom-width: 135px;
+                border-top-width: 115px;
+            }
+        }
+
+        /* Letter Inside Preview */
+        .envelope-letter-preview {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            height: 80%;
+            background: #fffefb;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            z-index: 3;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #fecdd3;
+        }
+
+        .envelope-letter-preview.slide-up {
+            transform: translate(-50%, -100px) scale(0.95);
+        }
+
+        /* Wax Seal */
+        .wax-seal {
+            position: absolute;
+            top: 100px;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 52px;
+            height: 52px;
+            background: linear-gradient(135deg, #e11d48, #9f1239);
+            border-radius: 50%;
+            z-index: 6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(159, 18, 57, 0.5), inset 0 2px 4px rgba(255,255,255,0.4);
+            border: 2px solid #fda4af;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .wax-seal.hide {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0);
+            pointer-events: none;
+        }
+
+        /* Glowing Button Animation */
+        .btn-glow {
+            box-shadow: 0 0 20px rgba(244, 63, 94, 0.4);
+            animation: pulseGlow 2s infinite;
+        }
+
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 15px rgba(244, 63, 94, 0.4); }
+            50% { box-shadow: 0 0 28px rgba(244, 63, 94, 0.7); }
+            100% { box-shadow: 0 0 15px rgba(244, 63, 94, 0.4); }
+        }
+
+        /* Paper Vintage Card Styling */
+        .letter-paper {
+            background: #fffefb;
+            background-image: radial-gradient(#fecdd3 0.75px, transparent 0.75px);
+            background-size: 16px 16px;
+            border: 1px solid #fbcfe8;
+        }
+
+        /* Typing Cursor Effect */
+        .typing-cursor::after {
+            content: '|';
+            animation: blink 0.7s infinite;
+            color: #e11d48;
+            font-weight: bold;
             margin-left: 2px;
-            vertical-align: middle;
-            box-shadow: 0 0 8px #ff6b8b;
-            animation: blinkCursor 0.8s infinite;
         }
 
-        @keyframes blinkCursor {
+        @keyframes blink {
             0%, 100% { opacity: 1; }
             50% { opacity: 0; }
         }
+
+        /* Modal Scale & Fade Transitions */
+        .letter-modal {
+            transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .letter-modal.hidden-modal {
+            opacity: 0;
+            transform: scale(0.8) translateY(30px);
+            pointer-events: none;
+        }
+
+        .letter-modal.visible-modal {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+            pointer-events: auto;
+        }
+
+        /* Glassmorphism Styling */
+        .glass-btn {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+        }
+
+        /* Custom Scrollbar for Modal */
+        .letter-paper::-webkit-scrollbar {
+            width: 6px;
+        }
+        .letter-paper::-webkit-scrollbar-track {
+            background: rgba(254, 205, 211, 0.3);
+            border-radius: 10px;
+        }
+        .letter-paper::-webkit-scrollbar-thumb {
+            background: rgba(244, 63, 94, 0.4);
+            border-radius: 10px;
+        }
     </style>
 </head>
+<body class="flex flex-col items-center justify-center min-h-screen p-4 relative overflow-x-hidden">
 
-<body class="bg-dark-950 text-slate-200 font-sans min-h-screen overflow-x-hidden relative selection:bg-velvet-500 selection:text-white">
+    <!-- Background Canvas for Floating Hearts -->
+    <canvas id="bgCanvas"></canvas>
+    
+    <!-- Canvas for Heart Confetti -->
+    <canvas id="confettiCanvas"></canvas>
 
-    <!-- Interactive Glowing Background Canvas -->
-    <canvas id="heartCanvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
+    <!-- Standard HTML5 Audio Tag (Local File Reference) -->
+    <audio id="bgAudio" loop preload="auto"></audio>
 
-    <!-- Floating Audio Control Widget -->
-    <div id="musicWidget" class="fixed top-5 right-5 z-50 opacity-0 transition-all duration-500 transform -translate-y-2 pointer-events-none">
-        <button id="musicToggleBtn" onclick="toggleAudio()" class="flex items-center gap-2 bg-dark-900/90 backdrop-blur-md px-4 py-2 rounded-full border border-velvet-500/30 text-xs sm:text-sm font-medium text-velvet-100 hover:bg-dark-800 transition-all transform hover:scale-105 active:scale-95 shadow-xl shadow-black/60">
-            <span id="musicIcon" class="text-base animate-spin" style="animation-duration: 3s;">🎵</span>
-            <span id="musicText">Music On</span>
+
+    <!-- Audio Player Controller (Pojok Kanan Atas) -->
+    <div class="fixed top-3 right-3 sm:top-4 sm:right-4 z-50 flex flex-col items-end gap-1.5">
+        <div class="glass-btn text-rosepink-600 px-3 py-2 sm:px-4 sm:py-2.5 rounded-2xl shadow-lg flex items-center justify-between gap-2.5 border border-rosepink-200/80 max-w-[290px]">
+            <button id="playPauseBtn" onclick="toggleAudio()" class="w-8 h-8 sm:w-9 sm:h-9 bg-rosepink-500 hover:bg-rosepink-600 text-white rounded-full flex items-center justify-center shadow-md transition-transform transform active:scale-95 shrink-0">
+                <span id="audioIcon" class="text-xs sm:text-sm">🎵</span>
+            </button>
+            <div class="flex flex-col overflow-hidden text-right">
+                <span id="audioStatusText" class="text-[10px] sm:text-xs font-bold text-rosepink-600 tracking-wide uppercase">Musik Latar</span>
+                <span id="audioTitle" class="font-semibold text-gray-800 text-xs sm:text-sm truncate">Sempurna - Andra & The Backbone</span>
+            </div>
+            <span class="text-xs text-rosepink-500" title="Musik otomatis saat surat dibuka">♫</span>
+        </div>
+        <span class="text-[9px] sm:text-[10px] text-gray-600 bg-white/80 backdrop-blur-sm px-2.5 py-1 rounded-md border border-rosepink-200 shadow-2xs text-right max-w-[270px]">
+            © keyaru.
+        </span>
+    </div>
+
+    <!-- MAIN SCENE 1: Halaman Awalan Surat Tertutup -->
+    <div id="envelopeScene" class="z-10 flex flex-col items-center justify-center transition-all duration-700">
+        
+        <div class="text-center mb-8">
+            <span class="inline-block px-4 py-1.5 rounded-full bg-white/80 backdrop-blur-md text-rosepink-600 text-xs sm:text-sm font-semibold tracking-wide uppercase shadow-sm border border-rosepink-200/60 mb-3">
+                Pesan Rahasia Dari <span>Someone</span> ✨
+            </span>
+            <h1 class="text-2xl sm:text-4xl font-bold text-gray-800 tracking-tight font-sans">
+                Ada Surat Cinta Untuk <span id="recipientBadgeName" class="text-rosepink-600 font-script text-3xl sm:text-5xl">Bunga</span>
+            </h1>
+            <p class="text-sm sm:text-base text-gray-600 mt-2 font-serif italic">
+                Klik tombol di bawah untuk membuka surat
+            </p>
+        </div>
+
+        <!-- 3D Envelope Container -->
+        <div class="perspective-1000 mb-8" onclick="openLetter()">
+            <div id="envelopeWrapper" class="envelope-wrapper">
+                <div id="envelopeFlap" class="envelope-flap"></div>
+                
+                <div id="waxSeal" class="wax-seal cursor-pointer">
+                    <span class="text-white text-xl">❤️</span>
+                </div>
+
+                <div id="envelopeLetterPreview" class="envelope-letter-preview">
+                    <div class="w-full border-b border-rosepink-200 pb-2 mb-2 text-center">
+                        <span id="previewRecipient" class="font-script text-rosepink-600 text-lg font-bold">Untuk Bunga</span>
+                    </div>
+                    <div class="w-3/4 h-2 bg-rosepink-100 rounded mb-1.5"></div>
+                    <div class="w-full h-2 bg-rosepink-100 rounded mb-1.5"></div>
+                    <div class="w-2/3 h-2 bg-rosepink-100 rounded"></div>
+                </div>
+
+                <div class="envelope-pocket"></div>
+            </div>
+        </div>
+
+        <!-- BUKA SURAT Button -->
+        <button id="openBtn" onclick="openLetter()" class="btn-glow bg-gradient-to-r from-rosepink-500 to-rosepink-600 hover:from-rosepink-600 hover:to-rosepink-700 text-white font-semibold text-base sm:text-lg px-9 py-3.5 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 active:scale-95 flex items-center gap-2">
+            <span>BUKA SURAT</span>
+            <span class="text-xl">❤️</span>
         </button>
     </div>
 
-    <!-- MAIN APP CONTAINER -->
-    <main class="relative z-10 flex items-center justify-center min-h-screen p-4 sm:p-6 md:p-8">
-
-        <!-- STAGE 1: 3D PHYSICAL ENVELOPE -->
-        <section id="step1" class="w-full max-w-md mx-auto transition-all duration-700 transform opacity-100 scale-100">
-            <div class="text-center mb-6">
-                <span class="inline-block bg-dark-900/90 text-velvet-300 text-xs sm:text-sm font-medium px-4 py-1.5 rounded-full backdrop-blur-sm border border-velvet-500/30 shadow-lg animate-pulse">
-                    💌 Ada sesuatu untukmu...
-                </span>
-            </div>
-
-            <div class="perspective-1000 py-6">
-                <div id="envelope" class="animate-float relative w-80 h-52 sm:w-96 sm:h-60 mx-auto rounded-2xl bg-gradient-to-b from-dark-900 to-dark-950 border border-velvet-500/30 shadow-[0_25px_60px_rgba(0,0,0,0.85),0_0_25px_rgba(255,107,139,0.15)] flex items-center justify-center">
-                    
-                    <!-- Inside Letter Paper Peek Preview -->
-                    <div id="letterPaper" class="absolute w-[88%] h-[85%] bg-dark-800 border border-velvet-500/30 rounded-xl p-4 text-center text-velvet-100 shadow-inner transition-all duration-1000 ease-in-out z-10 flex flex-col justify-center items-center">
-                        <span class="text-2xl mb-1">📜</span>
-                        <p class="font-serif italic text-xs sm:text-sm text-velvet-300">Surat cinta rahasia khusus untukmu...</p>
-                    </div>
-
-                    <!-- Envelope Pocket Flaps -->
-                    <div class="absolute inset-0 bg-dark-900/95 rounded-l-2xl z-20 pointer-events-none" style="clip-path: polygon(0 0, 52% 50%, 0 100%);"></div>
-                    <div class="absolute inset-0 bg-dark-900/95 rounded-r-2xl z-20 pointer-events-none" style="clip-path: polygon(100% 0, 48% 50%, 100% 100%);"></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-dark-800 to-dark-900 rounded-b-2xl z-20 pointer-events-none" style="clip-path: polygon(0 100%, 50% 48%, 100% 100%); border-bottom: 1px solid rgba(255, 107, 139, 0.2);"></div>
-
-                    <!-- 3D Rotating Top Flap -->
-                    <div id="envelopeFlap" class="absolute inset-0 bg-gradient-to-b from-dark-700 to-dark-800 rounded-t-2xl origin-top transition-all duration-700 ease-in-out z-30" style="clip-path: polygon(0 0, 100% 0, 50% 55%);"></div>
-
-                    <!-- Wax Seal / Open Envelope Button -->
-                    <div id="waxSealContainer" class="absolute z-40 top-[52%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-all duration-500">
-                        <button onclick="openPhysicalEnvelope()" class="animate-glow group relative inline-flex items-center justify-center p-0.5 overflow-hidden rounded-full font-medium transition-all duration-300 hover:scale-105 active:scale-95">
-                            <span class="px-5 py-3 bg-gradient-to-r from-velvet-900 via-velvet-700 to-velvet-900 rounded-full text-white text-xs sm:text-sm font-semibold flex items-center gap-2 border border-gold/60 shadow-lg">
-                                <span>Buka Surat</span>
-                                <span class="text-base group-hover:scale-125 transition-transform">❤️</span>
-                            </span>
-                        </button>
-                    </div>
-
-                </div>
-            </div>
-            
-            <p class="text-center text-xs text-slate-400 mt-4 font-light">Ketuk segel lilin untuk membuka amplop</p>
-        </section>
-
-        <!-- STAGE 2: "DIBACA YAA..." PREVIEW -->
-        <section id="step2" class="w-full max-w-md mx-auto hidden transition-all duration-700 transform opacity-0 scale-95">
-            <div class="dark-glass rounded-2xl p-8 sm:p-10 text-center relative overflow-hidden border border-velvet-500/30">
-                
-                <div class="w-12 h-1 bg-velvet-500/40 mx-auto rounded-full mb-8"></div>
-
-                <div class="py-6 space-y-3">
-                    <h1 class="font-serif text-3xl sm:text-4xl font-bold text-velvet-100 tracking-wide">
-                        Dibaca yaa...
-                    </h1>
-                    <p class="text-xs sm:text-sm text-velvet-300 font-medium tracking-wide">
-                        Aku membuat ini khusus untuk kamu ❤️
-                    </p>
-                </div>
-
-                <div class="w-12 h-1 bg-velvet-500/40 mx-auto rounded-full mt-2 mb-8"></div>
-
-                <!-- Read Letter Button (Triggers Audio & Step 3 Typewriter) -->
-                <button onclick="goToStep3()" class="w-full py-3.5 px-6 bg-gradient-to-r from-velvet-700 to-velvet-900 hover:from-velvet-600 hover:to-velvet-700 text-white font-semibold rounded-xl shadow-lg shadow-velvet-700/30 transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2 group">
-                    <span>Baca Surat</span>
-                    <span class="group-hover:rotate-12 transition-transform">💌</span>
-                </button>
-            </div>
-        </section>
-
-        <!-- STAGE 3: FULL LOVE LETTER WITH TYPEWRITER ANIMATION -->
-        <section id="step3" class="w-full max-w-2xl mx-auto hidden transition-all duration-700 transform opacity-0 translate-y-8 my-6">
-            
-            <div class="dark-glass rounded-2xl p-6 sm:p-10 md:p-12 relative border border-velvet-500/30">
-                
-                <!-- Header Stamp -->
-                <div class="flex justify-between items-center mb-8 border-b border-velvet-500/20 pb-4">
-                    <div class="text-left">
-                        <span class="text-xs uppercase tracking-widest text-velvet-300 font-semibold">Digital Love Letter</span>
-                        <p class="text-xs text-slate-400 mt-0.5">Disampaikan dengan tulus dari hati</p>
-                    </div>
-                    <div class="text-2xl opacity-90">💌</div>
-                </div>
-
-                <!-- Letter Recipient Title -->
-                <div class="mb-6">
-                    <h2 class="font-serif text-3xl sm:text-4xl font-bold text-velvet-100 mb-1">
-                        Untuk <span class="receiver-name-target text-velvet-300">Nama Dia</span> ❤️
-                    </h2>
-                </div>
-
-                <!-- Typewriter Target Container -->
-                <div id="typewriterBody" class="font-serif text-slate-200 text-lg sm:text-xl leading-relaxed space-y-6 text-justify sm:text-left min-h-[250px]">
-                    <!-- Typed text paragraphs will be appended here character-by-character -->
-                </div>
-
-                <!-- Letter Sign-off (Appears after typing) -->
-                <div id="letterSignoff" class="text-right mt-8 pt-4 border-t border-velvet-500/20 opacity-0 transition-opacity duration-700">
-                    <p class="text-xs text-slate-400">Dari seseorang yang mengagumimu,</p>
-                    <p class="font-handwriting text-3xl sm:text-4xl text-velvet-300 mt-1 font-bold">
-                        <span class="sender-name-target">Nama Kamu</span>
-                    </p>
-                </div>
-
-                <!-- PROPOSAL BUTTONS (HIDDEN UNTIL TYPING ANIMATION COMPLETES) -->
-                <div id="actionButtons" class="mt-10 opacity-0 translate-y-8 transition-all duration-1000 hidden">
-                    <div class="p-5 bg-dark-900/90 rounded-2xl border border-velvet-500/40 text-center shadow-xl">
-                        <p class="text-sm text-velvet-100 mb-4 font-medium">Pilihlah dengan sejujurnya dari hatimu ❤️</p>
-                        
-                        <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
-                            <!-- Terima Button -->
-                            <button onclick="handleResponse('accept')" class="w-full sm:w-auto flex-1 py-3.5 px-6 bg-gradient-to-r from-velvet-500 to-velvet-700 hover:from-velvet-600 hover:to-velvet-900 text-white font-semibold rounded-xl shadow-lg shadow-velvet-500/30 transition-all transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2">
-                                <span>❤️ Terima</span>
-                            </button>
-
-                            <!-- Tolak Button (Triggers Confirmation UI) -->
-                            <button onclick="showRejectConfirm()" class="w-full sm:w-auto flex-1 py-3.5 px-6 bg-dark-800 hover:bg-dark-700 text-slate-300 font-semibold rounded-xl border border-slate-600/50 transition-all transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2">
-                                <span>💔 Tolak</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-    </main>
-
-    <!-- CONFIRMATION MODAL BEFORE REJECTION -->
-    <div id="confirmModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-500">
-        <div id="confirmCard" class="dark-glass max-w-md w-full rounded-2xl p-6 sm:p-8 text-center border border-velvet-500/40 shadow-2xl transform scale-90 transition-transform duration-500 relative">
-            <div class="w-16 h-16 mx-auto rounded-full bg-dark-800 text-velvet-300 flex items-center justify-center text-3xl mb-4 shadow-lg border border-velvet-500/30">
-                🥺
-            </div>
-            <h3 class="font-serif text-2xl sm:text-3xl font-bold text-velvet-100 mb-3">
-                Apakah kamu yakin??
-            </h3>
-            <p class="text-slate-300 text-sm sm:text-base mb-6 font-light leading-relaxed">
-                Coba pikirkan sekali lagi yaa... Beneran mau nolak? 💔
-            </p>
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
-                <!-- Kembali Button -->
-                <button onclick="hideRejectConfirm()" class="w-full sm:w-auto flex-1 py-3 px-5 bg-gradient-to-r from-velvet-500 to-velvet-700 hover:from-velvet-600 hover:to-velvet-800 text-white font-semibold rounded-xl shadow-lg transition-all transform hover:-translate-y-0.5 active:translate-y-0">
-                    ✨ Kembali
-                </button>
-                <!-- Yakin Button -->
-                <button onclick="confirmReject()" class="w-full sm:w-auto flex-1 py-3 px-5 bg-dark-800 hover:bg-dark-700 text-slate-400 hover:text-slate-200 font-semibold rounded-xl border border-slate-600/50 transition-all transform hover:-translate-y-0.5 active:translate-y-0">
-                    💔 Yakin
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- RESPONSE RESULT MODAL OVERLAY (NO CLOSE BUTTON) -->
-    <div id="responseModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-500">
+    <!-- MAIN SCENE 2: Zoomed Letter Modal Overlay -->
+    <div id="letterModalOverlay" class="fixed inset-0 z-40 bg-pink-950/40 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 opacity-0 pointer-events-none transition-opacity duration-700">
         
-        <div id="modalCard" class="dark-glass max-w-md w-full rounded-2xl p-6 sm:p-8 text-center border border-velvet-500/40 shadow-2xl transform scale-90 transition-transform duration-500 relative">
+        <div id="letterCard" class="letter-modal hidden-modal letter-paper w-full max-w-xl max-h-[85vh] overflow-y-auto rounded-2xl sm:rounded-3xl shadow-2xl p-6 sm:p-10 text-gray-800 relative border border-white/80 my-auto">
             
-            <div id="modalIcon" class="w-20 h-20 mx-auto rounded-full flex items-center justify-center text-4xl mb-4 shadow-md">
-                ❤️
+            <!-- Corner Decorative Icons -->
+            <div class="absolute top-4 left-4 text-rosepink-300 text-xl sm:text-2xl opacity-60">🌸</div>
+            <div class="absolute top-4 right-4 text-rosepink-300 text-xl sm:text-2xl opacity-60">🌸</div>
+            <div class="absolute bottom-4 left-4 text-rosepink-300 text-xl sm:text-2xl opacity-60">💖</div>
+            <div class="absolute bottom-4 right-4 text-rosepink-300 text-xl sm:text-2xl opacity-60">💖</div>
+
+            <!-- Recipient Header -->
+            <div class="border-b-2 border-dashed border-rosepink-200 pb-4 mb-6 text-center">
+                <span class="text-xs uppercase tracking-widest text-rosepink-500 font-semibold">Special Digital Love Letter</span>
+                <h2 id="recipientHeader" class="text-3xl sm:text-5xl font-script text-rosepink-600 font-bold mt-1">
+                    Untuk Kanza...
+                </h2>
             </div>
 
-            <h3 id="modalTitle" class="font-serif text-2xl sm:text-3xl font-bold text-velvet-100 mb-3">
-                <!-- Dynamic Title -->
-            </h3>
-
-            <p id="modalBody1" class="text-slate-200 text-sm sm:text-base mb-2">
-                <!-- Dynamic Message Line 1 -->
-            </p>
-
-            <div id="modalBody2" class="p-3.5 bg-dark-900/90 rounded-xl border border-velvet-500/30 text-velvet-300 text-xs sm:text-sm font-medium my-4">
-                <!-- Dynamic Message Line 2 (Proof Photo Request) -->
+            <!-- Typing Container for Letter Paragraphs -->
+            <div id="fullLetterContainer" class="font-serif text-sm sm:text-base leading-relaxed sm:leading-loose text-gray-700 space-y-4 text-justify">
+                <!-- Paragraf diketik satu per satu melalui JavaScript -->
             </div>
 
-            <!-- Note: No Close Button as requested -->
+            <!-- Typing Container for Proposal Question -->
+            <div id="questionContainer" class="mt-6 pt-4 border-t border-rosepink-100 min-h-[80px]">
+                <p id="typingQuestion1" class="font-serif italic text-rosepink-600 font-medium text-sm sm:text-base leading-relaxed"></p>
+                <p id="typingQuestion2" class="font-sans font-bold text-base sm:text-xl text-rosepink-700 mt-2 leading-snug"></p>
+            </div>
+
+            <!-- TERIMA / TOLAK Buttons -->
+            <div id="choicesContainer" class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 opacity-0 transform translate-y-4 transition-all duration-700 pointer-events-none">
+                <button onclick="acceptLove()" class="w-full sm:w-auto flex-1 bg-gradient-to-r from-rosepink-500 to-rosepink-600 hover:from-rosepink-600 hover:to-rosepink-700 text-white font-semibold text-base sm:text-lg px-6 py-3.5 rounded-xl shadow-md transition-all transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2 border border-rosepink-400">
+                    <span>❤️</span>
+                    <span>TERIMA</span>
+                </button>
+                <button onclick="rejectLove()" class="w-full sm:w-auto flex-1 bg-stone-200 hover:bg-stone-300 text-stone-700 font-semibold text-base sm:text-lg px-6 py-3.5 rounded-xl shadow-sm transition-all transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2 border border-stone-300">
+                    <span>💔</span>
+                    <span>TOLAK</span>
+                </button>
+            </div>
+
+            <!-- Response Result Box -->
+            <div id="resultContainer" class="hidden mt-6 pt-6 border-t-2 border-rosepink-200 text-center animate-fade-in">
+                
+                <div id="resultCard" class="p-5 sm:p-6 rounded-2xl bg-rosepink-50/90 border border-rosepink-200 mb-6 text-left shadow-sm">
+                    <p id="resultText" class="font-serif text-sm sm:text-base text-gray-800 leading-relaxed whitespace-pre-line"></p>
+                    <div class="mt-4 text-right">
+                        <span id="senderSignature" class="font-script text-2xl sm:text-3xl text-rosepink-600 font-bold block">
+                            Dari: Varel
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Screenshot Box -->
+                <div class="bg-gradient-to-r from-amber-50 via-rosepink-50 to-amber-50 border-2 border-dashed border-rosepink-300 rounded-xl p-4 shadow-inner">
+                    <div class="flex items-center justify-center gap-2 text-rosepink-600 font-bold text-xs sm:text-sm uppercase tracking-wide mb-1">
+                        <span>📸</span>
+                        <span>Selanjutnya</span>
+                    </div>
+                    <p class="font-semibold text-rosepink-700 text-sm sm:text-base">
+                        Screenshot tulisan ini lalu kirim ke padaku yaa ❤️
+                    </p>
+                </div>
+
+            </div>
+
         </div>
-
     </div>
 
-    <!-- JAVASCRIPT SECTION -->
     <script>
-        /* ==========================================================================
-           1. CONFIGURATION (EASY TO EDIT)
-           ========================================================================== */
+        /*
+         * ==========================================
+         * 1. CONFIGURATION OBJECT (DAPAT DIEDIT ENAK)
+         * ==========================================
+         */
         const CONFIG = {
-            senderName: "Varel",
-            receiverName: "Kanza",
-            audioUrl: "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-piano-112199.mp3", // Link file musik audio
-            typingSpeed: 32, // Kecepatan ketik (milidetik per karakter)
+            namaPenerima: "Kanza",                      // Nama Penerima Surat
+            namaPengirim: "Varel",                       // Nama Pembuat / Pengirim
+            fileLaguLokal: "sempurna.mp3",             // Ubah manual sesuai nama/path file MP3
+            judulLagu: "Sempurna - Andra & The Backbone",
+            
+            // Paragraf Isi Surat (Akan diketik karakter per karakter)
+            isiSurat: [
+                "Ada sesuatu yang sebenarnya sudah lama sekali ingin aku sampaikan padamu. Mungkin aku tidak selalu pandai mengungkapkan perasaan secara langsung, jadi kali ini aku memilih untuk menuliskannya di sini.",
+                "Aku suka cara kamu tersenyum, aku suka ketika kamu bercerita dengan segala keceriaanmu, dan tanpa sadar, kamu telah menjadi seseorang yang sangat berarti dan selalu menerangi hariku.",
+                "Seperti lirik lagu Sempurna... Kau begitu sempurna di mataku. Kehadiranmu memberikan warna baru yang indah dalam hidupku."
+            ],
+
+            // Pertanyaan Pungkasan Surat
+            pertanyaan1: "Dan akhirnya... ada satu hal yang ingin aku tanyakan kepadamu.",
+            pertanyaan2: "Maukah kamu menerima cintaku? ❤️"
         };
 
-        /* ==========================================================================
-           2. STATE & DOM ELEMENTS
-           ========================================================================== */
-        let audioPlayer = null;
+        let isOpened = false;
         let isAudioPlaying = false;
 
-        const step1 = document.getElementById('step1');
-        const step2 = document.getElementById('step2');
-        const step3 = document.getElementById('step3');
-        const envelopeFlap = document.getElementById('envelopeFlap');
-        const letterPaper = document.getElementById('letterPaper');
-        const waxSealContainer = document.getElementById('waxSealContainer');
-        const musicWidget = document.getElementById('musicWidget');
-        const musicIcon = document.getElementById('musicIcon');
-        const musicText = document.getElementById('musicText');
-        const typewriterBody = document.getElementById('typewriterBody');
-        const letterSignoff = document.getElementById('letterSignoff');
-        const actionButtons = document.getElementById('actionButtons');
-        const responseModal = document.getElementById('responseModal');
-        const modalCard = document.getElementById('modalCard');
-
         document.addEventListener('DOMContentLoaded', () => {
-            // Set dynamic names from CONFIG
-            document.querySelectorAll('.receiver-name-target').forEach(el => el.textContent = CONFIG.receiverName || "Kamu");
-            document.querySelectorAll('.sender-name-target').forEach(el => el.textContent = CONFIG.senderName || "Aku");
+            // Apply Configuration Data to UI
+            document.getElementById('recipientHeader').textContent = `Untuk ${CONFIG.namaPenerima}...`;
+            document.getElementById('recipientBadgeName').textContent = CONFIG.namaPenerima;
+            document.getElementById('previewRecipient').textContent = `Untuk ${CONFIG.namaPenerima}`;
+            document.getElementById('senderBadgeName').textContent = CONFIG.namaPengirim;
+            document.getElementById('senderSignature').textContent = `Dari: ${CONFIG.namaPengirim}`;
+            document.getElementById('audioTitle').textContent = CONFIG.judulLagu;
 
-            initAudio();
-            initHeartCanvas();
+            // Set source untuk audio tag HTML5
+            const bgAudio = document.getElementById('bgAudio');
+            bgAudio.src = CONFIG.fileLaguLokal;
         });
 
-        /* ==========================================================================
-           3. BACKGROUND FLOATING GLOWING HEARTS CANVAS
-           ========================================================================== */
-        function initHeartCanvas() {
-            const canvas = document.getElementById('heartCanvas');
-            const ctx = canvas.getContext('2d');
-            let particles = [];
-
-            function resizeCanvas() {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-            }
-            resizeCanvas();
-            window.addEventListener('resize', resizeCanvas);
-
-            class Particle {
-                constructor() {
-                    this.reset();
-                }
-
-                reset() {
-                    this.x = Math.random() * canvas.width;
-                    this.y = canvas.height + Math.random() * 20;
-                    this.size = Math.random() * 10 + 5;
-                    this.speedY = Math.random() * 0.7 + 0.3;
-                    this.speedX = Math.sin(Math.random() * Math.PI) * 0.3;
-                    this.opacity = Math.random() * 0.6 + 0.2;
-                    this.isHeart = Math.random() > 0.25;
-                }
-
-                update() {
-                    this.y -= this.speedY;
-                    this.x += this.speedX;
-                    if (this.y < -30) {
-                        this.reset();
-                    }
-                }
-
-                draw() {
-                    ctx.save();
-                    ctx.globalAlpha = this.opacity;
-                    ctx.shadowBlur = 10;
-                    ctx.shadowColor = '#ff6b8b';
-                    ctx.fillStyle = '#ff6b8b';
-
-                    if (this.isHeart) {
-                        ctx.beginPath();
-                        const topCurveHeight = this.size * 0.3;
-                        ctx.moveTo(this.x, this.y + topCurveHeight);
-                        ctx.bezierCurveTo(
-                            this.x, this.y, 
-                            this.x - this.size / 2, this.y, 
-                            this.x - this.size / 2, this.y + topCurveHeight
-                        );
-                        ctx.bezierCurveTo(
-                            this.x - this.size / 2, this.y + (this.size + topCurveHeight) / 2, 
-                            this.x, this.y + this.size, 
-                            this.x, this.y + this.size
-                        );
-                        ctx.bezierCurveTo(
-                            this.x, this.y + this.size, 
-                            this.x + this.size / 2, this.y + (this.size + topCurveHeight) / 2, 
-                            this.x + this.size / 2, this.y + topCurveHeight
-                        );
-                        ctx.bezierCurveTo(
-                            this.x + this.size / 2, this.y, 
-                            this.x, this.y, 
-                            this.x, this.y + topCurveHeight
-                        );
-                        ctx.fill();
-                    } else {
-                        ctx.beginPath();
-                        ctx.arc(this.x, this.y, this.size / 3, 0, Math.PI * 2);
-                        ctx.fillStyle = '#ffd700';
-                        ctx.shadowColor = '#ffd700';
-                        ctx.fill();
-                    }
-                    ctx.restore();
-                }
-            }
-
-            for (let i = 0; i < 30; i++) {
-                particles.push(new Particle());
-            }
-
-            function animate() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                particles.forEach(p => {
-                    p.update();
-                    p.draw();
-                });
-                requestAnimationFrame(animate);
-            }
-            animate();
+        /*
+         * ==========================================
+         * 2. AUDIO MANAGEMENT (MANUAL PLAYER)
+         * ==========================================
+         */
+        function updateAudioUI(playing) {
+            isAudioPlaying = playing;
+            document.getElementById('audioIcon').textContent = playing ? '🎶' : '🎵';
+            document.getElementById('audioStatusText').textContent = playing ? 'Memutar Musik' : 'Musik Latar';
         }
 
-        /* ==========================================================================
-           4. STAGE TRANSITIONS & ENVELOPE ANIMATION
-           ========================================================================== */
-        function openPhysicalEnvelope() {
-            waxSealContainer.classList.add('scale-0', 'opacity-0');
+        function startMusic() {
+            const bgAudio = document.getElementById('bgAudio');
+            bgAudio.src = CONFIG.fileLaguLokal;
+            bgAudio.loop = true;
 
-            // Rotate flap 180deg open
-            envelopeFlap.style.transform = 'rotateX(180deg)';
-            envelopeFlap.style.zIndex = '5';
-
-            // Slide letter paper up out of envelope pocket
-            setTimeout(() => {
-                letterPaper.style.transform = 'translateY(-110px) scale(1.05)';
-                letterPaper.style.zIndex = '25';
-            }, 300);
-
-            // Transition to Stage 2
-            setTimeout(() => {
-                goToStep2();
-            }, 1200);
-        }
-
-        function goToStep2() {
-            step1.classList.add('opacity-0', 'scale-95');
-            setTimeout(() => {
-                step1.classList.add('hidden');
-                step2.classList.remove('hidden');
-                void step2.offsetWidth;
-                step2.classList.remove('opacity-0', 'scale-95');
-                step2.classList.add('opacity-100', 'scale-100');
-            }, 600);
-        }
-
-        function goToStep3() {
-            // Play audio upon clicking Baca Surat
-            playAudio();
-
-            // Reveal music floating widget
-            musicWidget.classList.remove('opacity-0', 'pointer-events-none', 'translate-y--2');
-
-            step2.classList.add('opacity-0', 'scale-95');
-            setTimeout(() => {
-                step2.classList.add('hidden');
-                step3.classList.remove('hidden');
-                void step3.offsetWidth;
-                step3.classList.remove('opacity-0', 'translate-y-8');
-                step3.classList.add('opacity-100', 'translate-y-0');
-
-                step3.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-                // Start typewriter animation for letter
-                startLetterTypewriter();
-            }, 600);
-        }
-
-        /* ==========================================================================
-           5. AUDIO PLAYER MANAGEMENT
-           ========================================================================== */
-        function initAudio() {
-            if (CONFIG.audioUrl && CONFIG.audioUrl.trim() !== "") {
-                audioPlayer = new Audio();
-                audioPlayer.src = CONFIG.audioUrl.trim();
-                audioPlayer.loop = true;
-            }
-        }
-
-        function playAudio() {
-            if (audioPlayer && CONFIG.audioUrl.trim() !== "") {
-                audioPlayer.play().then(() => {
-                    isAudioPlaying = true;
-                    updateMusicUI(true);
-                }).catch(err => {
-                    console.log("Audio playback notice:", err);
-                    isAudioPlaying = false;
-                    updateMusicUI(false);
-                });
-            }
+            // Browser mengizinkan pemutaran karena fungsi ini dipanggil
+            // langsung setelah pengguna menekan tombol BUKA SURAT.
+            bgAudio.play().then(() => {
+                updateAudioUI(true);
+            }).catch((err) => {
+                updateAudioUI(false);
+                document.getElementById('audioStatusText').textContent = 'Musik tidak dapat diputar';
+                console.warn('Periksa nama/lokasi file MP3:', err);
+            });
         }
 
         function toggleAudio() {
-            if (!audioPlayer || !CONFIG.audioUrl.trim()) return;
+            const bgAudio = document.getElementById('bgAudio');
 
             if (isAudioPlaying) {
-                audioPlayer.pause();
-                isAudioPlaying = false;
-                updateMusicUI(false);
+                bgAudio.pause();
+                updateAudioUI(false);
+                document.getElementById('audioStatusText').textContent = 'Dihentikan';
             } else {
-                audioPlayer.play().then(() => {
-                    isAudioPlaying = true;
-                    updateMusicUI(true);
-                }).catch(err => console.log(err));
+                bgAudio.play().then(() => {
+                    updateAudioUI(true);
+                }).catch((err) => {
+                    document.getElementById('audioStatusText').textContent = 'Musik tidak dapat diputar';
+                    console.warn('Periksa nama/lokasi file MP3:', err);
+                });
             }
         }
 
-        function updateMusicUI(playing) {
-            if (playing) {
-                musicIcon.classList.add('animate-spin');
-                musicText.textContent = "Music On";
-            } else {
-                musicIcon.classList.remove('animate-spin');
-                musicText.textContent = "Music Off";
+        document.getElementById('bgAudio').addEventListener('pause', () => updateAudioUI(false));
+        document.getElementById('bgAudio').addEventListener('play', () => updateAudioUI(true));
+
+        /*
+         * ==========================================
+         * 3. FLOATING BACKGROUND HEARTS CANVAS
+         * ==========================================
+         */
+        const bgCanvas = document.getElementById('bgCanvas');
+        const bgCtx = bgCanvas.getContext('2d');
+        let bgHearts = [];
+
+        function resizeBgCanvas() {
+            bgCanvas.width = window.innerWidth;
+            bgCanvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeBgCanvas);
+        resizeBgCanvas();
+
+        class HeartParticle {
+            constructor() {
+                this.reset();
             }
-        }
 
-        /* ==========================================================================
-           6. TYPEWRITER ANIMATION & AUTOMATIC PROPOSAL BUTTON REVEAL
-           ========================================================================== */
-        function getLetterParagraphs() {
-            const receiver = CONFIG.receiverName || "Kamu";
-            return [
-                `Entah harus mulai dari mana... Mungkin ada banyak sekali hal yang ingin aku sampaikan, tapi tidak semuanya bisa aku ungkapkan secara langsung saat menatap matamu.`,
-                `Sejak kamu hadir dalam hariku, ada banyak warna baru yang rasanya belum pernah aku lihat sebelumnya. Kehadiranmu bukan cuma melengkapi hari-hariku, tapi juga memberikan ketenangan luar biasa yang selama ini tidak pernah aku bayangkan.`,
-                `Aku sering memperhatikan bagaimana caramu bersikap, caramu berbicara, dan merespons hal-hal di sekitarmu. Tanpa kamu sadari, setiap momen sederhana bersamamu selalu berhasil membuatku tersenyum dan bersyukur.`,
-                `Aku sadar bahwa tidak ada manusia yang sempurna, dan aku pun jauh dari kata sempurna. Tapi jika diperbolehkan, aku ingin belajar menjadi seseorang yang bisa terus ada untukmu, menemani langkahmu, mendengarkan ceritamu, dan merayakan setiap kebahagiaan bersamamu.`,
-                `Terima kasih sudah bersabar membaca surat ini dari awal sampai akhir.`,
-                `Jadi... setelah membaca semua ini, aku ingin menanyakan satu hal yang paling tulus dari hatiku.`,
-                `"Maukah kamu menerima cintaku?" ❤️`
-            ];
-        }
+            reset() {
+                this.x = Math.random() * bgCanvas.width;
+                this.y = bgCanvas.height + 20;
+                this.size = Math.random() * 14 + 8;
+                this.speedY = Math.random() * 1.2 + 0.6;
+                this.opacity = Math.random() * 0.5 + 0.3;
+                this.rotation = Math.random() * Math.PI * 2;
+                this.rotSpeed = (Math.random() - 0.5) * 0.02;
+                this.color = `hsl(${Math.random() * 20 + 340}, 85%, ${Math.random() * 20 + 70}%)`;
+            }
 
-        function startLetterTypewriter() {
-            typewriterBody.innerHTML = ""; // Clear existing content
-            const paragraphs = getLetterParagraphs();
-            let pIndex = 0;
-            let charIndex = 0;
-
-            // Create blinking cursor element
-            const cursor = document.createElement('span');
-            cursor.className = 'type-cursor';
-
-            function typeNextChar() {
-                if (pIndex >= paragraphs.length) {
-                    // TYPEWRITER COMPLETE
-                    if (cursor.parentNode) cursor.parentNode.removeChild(cursor);
-                    
-                    // Reveal sign-off
-                    letterSignoff.classList.remove('opacity-0');
-                    letterSignoff.classList.add('opacity-100');
-
-                    // AUTOMATICALLY REVEAL PROPOSAL BUTTONS ONLY AFTER TYPING FINISHES
-                    setTimeout(() => {
-                        revealActionButtons();
-                    }, 500);
-                    return;
-                }
-
-                // Check if current paragraph element exists or needs creation
-                let currentP = typewriterBody.children[pIndex];
-                if (!currentP) {
-                    currentP = document.createElement('p');
-                    if (pIndex === paragraphs.length - 1) {
-                        // Highlight question
-                        currentP.className = "text-center text-xl sm:text-2xl font-bold text-velvet-300 italic my-6 pt-4 border-t border-velvet-500/20";
-                    } else if (pIndex === paragraphs.length - 2) {
-                        currentP.className = "font-bold text-velvet-100 text-xl sm:text-2xl pt-4";
-                    }
-                    typewriterBody.appendChild(currentP);
-                    currentP.appendChild(cursor);
-                }
-
-                const currentText = paragraphs[pIndex];
-                
-                if (charIndex < currentText.length) {
-                    // Append character
-                    const textNode = document.createTextNode(currentText.charAt(charIndex));
-                    if (cursor.parentNode !== currentP) {
-                        currentP.appendChild(cursor);
-                    }
-                    currentP.insertBefore(textNode, cursor);
-                    charIndex++;
-
-                    // Dynamic scroll while typing if needed
-                    window.scrollTo({
-                        top: document.body.scrollHeight,
-                        behavior: 'smooth'
-                    });
-
-                    setTimeout(typeNextChar, CONFIG.typingSpeed || 35);
-                } else {
-                    // Move to next paragraph
-                    pIndex++;
-                    charIndex = 0;
-                    setTimeout(typeNextChar, 350); // Pause briefly between paragraphs
+            update() {
+                this.y -= this.speedY;
+                this.x += Math.sin(this.y * 0.01) * 0.5;
+                this.rotation += this.rotSpeed;
+                if (this.y < -30) {
+                    this.reset();
                 }
             }
 
-            typeNextChar();
+            draw() {
+                bgCtx.save();
+                bgCtx.translate(this.x, this.y);
+                bgCtx.rotate(this.rotation);
+                bgCtx.globalAlpha = this.opacity;
+                bgCtx.fillStyle = this.color;
+
+                const topCurveHeight = this.size * 0.3;
+                bgCtx.beginPath();
+                bgCtx.moveTo(0, topCurveHeight);
+                bgCtx.bezierCurveTo(0, 0, -this.size / 2, 0, -this.size / 2, topCurveHeight);
+                bgCtx.bezierCurveTo(-this.size / 2, (this.size + topCurveHeight) / 2, 0, this.size, 0, this.size);
+                bgCtx.bezierCurveTo(0, this.size, this.size / 2, (this.size + topCurveHeight) / 2, this.size / 2, topCurveHeight);
+                bgCtx.bezierCurveTo(this.size / 2, 0, 0, 0, 0, topCurveHeight);
+                bgCtx.closePath();
+                bgCtx.fill();
+                bgCtx.restore();
+            }
         }
 
-        function revealActionButtons() {
-            actionButtons.classList.remove('hidden');
-            void actionButtons.offsetWidth;
-            actionButtons.classList.remove('opacity-0', 'translate-y-8');
-            actionButtons.classList.add('opacity-100', 'translate-y-0');
-
-            // Smooth scroll to the revealed proposal buttons
-            actionButtons.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        for (let i = 0; i < 25; i++) {
+            const h = new HeartParticle();
+            h.y = Math.random() * bgCanvas.height;
+            bgHearts.push(h);
         }
 
-        /* ==========================================================================
-           7. REACTION MODAL HANDLERS
-           ========================================================================== */
-        const confirmModal = document.getElementById('confirmModal');
-        const confirmCard = document.getElementById('confirmCard');
-
-        function showRejectConfirm() {
-            confirmModal.classList.remove('pointer-events-none', 'opacity-0');
-            confirmModal.classList.add('opacity-100');
-            confirmCard.classList.remove('scale-90');
-            confirmCard.classList.add('scale-100');
+        function animateBg() {
+            bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
+            bgHearts.forEach(h => {
+                h.update();
+                h.draw();
+            });
+            requestAnimationFrame(animateBg);
         }
+        animateBg();
 
-        function hideRejectConfirm() {
-            confirmModal.classList.remove('opacity-100');
-            confirmModal.classList.add('pointer-events-none', 'opacity-0');
-            confirmCard.classList.remove('scale-100');
-            confirmCard.classList.add('scale-90');
-        }
+        /*
+         * ==========================================
+         * 4. ANIMASI BUKA SURAT 3D
+         * ==========================================
+         */
+        function openLetter() {
+            if (isOpened) return;
+            isOpened = true;
 
-        function confirmReject() {
-            hideRejectConfirm();
+            // Jalankan musik begitu tombol BUKA ditekan
+            startMusic();
+
+            const envelopeFlap = document.getElementById('envelopeFlap');
+            const waxSeal = document.getElementById('waxSeal');
+            const envelopeLetterPreview = document.getElementById('envelopeLetterPreview');
+            const openBtn = document.getElementById('openBtn');
+
+            if (openBtn) {
+                openBtn.style.opacity = '0';
+                openBtn.style.transform = 'scale(0.8)';
+                setTimeout(() => openBtn.style.display = 'none', 400);
+            }
+            if (waxSeal) waxSeal.classList.add('hide');
+
             setTimeout(() => {
-                handleResponse('reject');
+                if (envelopeFlap) envelopeFlap.classList.add('open');
             }, 300);
+
+            setTimeout(() => {
+                if (envelopeLetterPreview) envelopeLetterPreview.classList.add('slide-up');
+            }, 800);
+
+            setTimeout(() => {
+                showLetterModal();
+            }, 1500);
         }
 
-        function handleResponse(type) {
-            const modalIcon = document.getElementById('modalIcon');
-            const modalTitle = document.getElementById('modalTitle');
-            const modalBody1 = document.getElementById('modalBody1');
-            const modalBody2 = document.getElementById('modalBody2');
+        function showLetterModal() {
+            const letterModalOverlay = document.getElementById('letterModalOverlay');
+            const letterCard = document.getElementById('letterCard');
 
-            if (type === 'accept') {
-                modalIcon.className = "w-20 h-20 mx-auto rounded-full bg-velvet-900/80 text-velvet-300 flex items-center justify-center text-4xl mb-4 shadow-lg border border-velvet-500/40";
-                modalIcon.textContent = "❤️";
-                modalTitle.textContent = "Terimakasih sudah menerima cintaku ❤️";
-                modalBody1.textContent = "Aku benar-benar senang mendengar jawabanmu.";
-                modalBody2.textContent = "Mohon kirim bukti foto ini kepadaku yaa 📸";
-            } else {
-                modalIcon.className = "w-20 h-20 mx-auto rounded-full bg-dark-800 text-slate-400 flex items-center justify-center text-4xl mb-4 shadow-lg border border-slate-600/40";
-                modalIcon.textContent = "🥲";
-                modalTitle.textContent = "Yahh... kayaknya aku memang tidak pantas buat kamu 🥲";
-                modalBody1.textContent = "Tidak apa-apa, terima kasih sudah membaca surat ini sampai selesai.";
-                modalBody2.textContent = "Kirim bukti foto ini kepadaku yaa 📸";
+            if (letterModalOverlay && letterCard) {
+                letterModalOverlay.classList.remove('opacity-0', 'pointer-events-none');
+                letterModalOverlay.classList.add('opacity-100', 'pointer-events-auto');
+
+                letterCard.classList.remove('hidden-modal');
+                letterCard.classList.add('visible-modal');
             }
 
-            responseModal.classList.remove('pointer-events-none', 'opacity-0');
-            responseModal.classList.add('opacity-100');
-            modalCard.classList.remove('scale-90');
-            modalCard.classList.add('scale-100');
+            // Mulai animasi ketikan seluruh isi surat
+            setTimeout(() => {
+                startFullTypingSequence();
+            }, 600);
+        }
+
+        /*
+         * ==========================================
+         * 5. EFEK KETIKAN TEKS SURAT (TYPEWRITER)
+         * ==========================================
+         */
+        function typeWriterChar(element, text, speed) {
+            return new Promise((resolve) => {
+                let i = 0;
+                element.classList.add('typing-cursor');
+                const letterCard = document.getElementById('letterCard');
+                
+                function type() {
+                    if (i < text.length) {
+                        element.textContent += text.charAt(i);
+                        i++;
+                        
+                        // Auto scroll mengikuti tulisan
+                        if (letterCard) {
+                            letterCard.scrollTop = letterCard.scrollHeight;
+                        }
+                        
+                        setTimeout(type, speed);
+                    } else {
+                        element.classList.remove('typing-cursor');
+                        resolve();
+                    }
+                }
+                type();
+            });
+        }
+
+        async function startFullTypingSequence() {
+            const fullLetterContainer = document.getElementById('fullLetterContainer');
+            const typingQuestion1 = document.getElementById('typingQuestion1');
+            const typingQuestion2 = document.getElementById('typingQuestion2');
+
+            // 1. Ketik semua paragraf di CONFIG.isiSurat
+            for (let idx = 0; idx < CONFIG.isiSurat.length; idx++) {
+                const paragraphText = CONFIG.isiSurat[idx];
+                const p = document.createElement('p');
+                fullLetterContainer.appendChild(p);
+
+                await typeWriterChar(p, paragraphText, 35);
+                await new Promise(r => setTimeout(r, 350));
+            }
+
+            // 2. Ketik Kalimat Pertanyaan Akhir
+            await typeWriterChar(typingQuestion1, CONFIG.pertanyaan1, 40);
+            await new Promise(r => setTimeout(r, 450));
+            await typeWriterChar(typingQuestion2, CONFIG.pertanyaan2, 50);
+
+            // 3. Tampilkan Tombol Pilihan TERIMA / TOLAK
+            setTimeout(() => {
+                revealChoices();
+            }, 400);
+        }
+
+        function revealChoices() {
+            const choicesContainer = document.getElementById('choicesContainer');
+            if (choicesContainer) {
+                choicesContainer.classList.remove('opacity-0', 'translate-y-4', 'pointer-events-none');
+                choicesContainer.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
+            }
+        }
+
+        /*
+         * ==========================================
+         * 6. HEART CONFETTI EFFECT
+         * ==========================================
+         */
+        const confettiCanvas = document.getElementById('confettiCanvas');
+        const confettiCtx = confettiCanvas.getContext('2d');
+        let confettiParticles = [];
+
+        function resizeConfettiCanvas() {
+            confettiCanvas.width = window.innerWidth;
+            confettiCanvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeConfettiCanvas);
+        resizeConfettiCanvas();
+
+        class HeartConfetti {
+            constructor() {
+                this.x = confettiCanvas.width / 2;
+                this.y = confettiCanvas.height / 2 + 50;
+                this.size = Math.random() * 16 + 10;
+                const angle = Math.random() * Math.PI * 2;
+                const speed = Math.random() * 12 + 6;
+                this.vx = Math.cos(angle) * speed;
+                this.vy = Math.sin(angle) * speed - 4;
+                this.gravity = 0.25;
+                this.opacity = 1;
+                this.decay = Math.random() * 0.015 + 0.01;
+                this.color = `hsl(${Math.random() * 40 + 330}, 90%, 60%)`;
+                this.rotation = Math.random() * Math.PI * 2;
+                this.rotSpeed = (Math.random() - 0.5) * 0.2;
+            }
+
+            update() {
+                this.vx *= 0.98;
+                this.vy += this.gravity;
+                this.x += this.vx;
+                this.y += this.vy;
+                this.rotation += this.rotSpeed;
+                this.opacity -= this.decay;
+            }
+
+            draw() {
+                if (this.opacity <= 0) return;
+                confettiCtx.save();
+                confettiCtx.translate(this.x, this.y);
+                confettiCtx.rotate(this.rotation);
+                confettiCtx.globalAlpha = Math.max(0, this.opacity);
+                confettiCtx.fillStyle = this.color;
+
+                const size = this.size;
+                confettiCtx.beginPath();
+                confettiCtx.moveTo(0, size * 0.3);
+                confettiCtx.bezierCurveTo(0, 0, -size / 2, 0, -size / 2, size * 0.3);
+                confettiCtx.bezierCurveTo(-size / 2, size * 0.7, 0, size, 0, size);
+                confettiCtx.bezierCurveTo(0, size, size / 2, size * 0.7, size / 2, size * 0.3);
+                confettiCtx.bezierCurveTo(size / 2, 0, 0, 0, 0, size * 0.3);
+                confettiCtx.closePath();
+                confettiCtx.fill();
+                confettiCtx.restore();
+            }
+        }
+
+        function triggerConfetti() {
+            for (let i = 0; i < 90; i++) {
+                confettiParticles.push(new HeartConfetti());
+            }
+            animateConfetti();
+        }
+
+        function animateConfetti() {
+            confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+            confettiParticles.forEach((p, index) => {
+                p.update();
+                p.draw();
+                if (p.opacity <= 0) {
+                    confettiParticles.splice(index, 1);
+                }
+            });
+            if (confettiParticles.length > 0) {
+                requestAnimationFrame(animateConfetti);
+            }
+        }
+
+        /*
+         * ==========================================
+         * 7. RESPON TERIMA ATAU TOLAK
+         * ==========================================
+         */
+        function acceptLove() {
+            hideChoices();
+            triggerConfetti();
+
+            const resultText = `Terima kasih sudah menerima cintaku ❤️
+
+Aku benar-benar bahagia mengetahui bahwa perasaanku ternyata sampai kepadamu, ${CONFIG.namaPenerima}. Terima kasih sudah memberikan kesempatan indah ini untuk perasaan kita.`;
+
+            showResult(resultText);
+        }
+
+        function rejectLove() {
+            hideChoices();
+
+            const resultText = `Terima kasih sudah menjawab isi hatiku ❤️
+
+Walaupun jawabanmu mungkin belum seperti yang kuharapkan, aku tetap sangat menghargai kejujuranmu, ${CONFIG.namaPenerima}. Terima kasih karena sudah membaca surat ini sampai selesai.`;
+
+            showResult(resultText);
+        }
+
+        function hideChoices() {
+            const choicesContainer = document.getElementById('choicesContainer');
+            if (choicesContainer) {
+                choicesContainer.style.opacity = '0';
+                choicesContainer.style.transform = 'translateY(15px)';
+                setTimeout(() => {
+                    choicesContainer.style.display = 'none';
+                }, 500);
+            }
+        }
+
+        function showResult(text) {
+            setTimeout(() => {
+                const resultContainer = document.getElementById('resultContainer');
+                const resultTextElement = document.getElementById('resultText');
+
+                if (resultTextElement) resultTextElement.textContent = text;
+
+                if (resultContainer) {
+                    resultContainer.classList.remove('hidden');
+                    const letterCard = document.getElementById('letterCard');
+                    if (letterCard) {
+                        letterCard.scrollTo({
+                            top: letterCard.scrollHeight,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            }, 500);
         }
     </script>
 </body>
