@@ -264,6 +264,15 @@
             background: rgba(244, 63, 94, 0.4);
             border-radius: 10px;
         }
+
+        .animate-fade-in {
+            animation: fadeIn 0.4s forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
     </style>
 </head>
 <body class="flex flex-col items-center justify-center min-h-screen p-4 relative overflow-x-hidden">
@@ -276,7 +285,6 @@
 
     <!-- Standard HTML5 Audio Tag (Local File Reference) -->
     <audio id="bgAudio" loop preload="auto"></audio>
-
 
     <!-- Audio Player Controller (Pojok Kanan Atas) -->
     <div class="fixed top-3 right-3 sm:top-4 sm:right-4 z-50 flex flex-col items-end gap-1.5">
@@ -300,10 +308,10 @@
         
         <div class="text-center mb-8">
             <span class="inline-block px-4 py-1.5 rounded-full bg-white/80 backdrop-blur-md text-rosepink-600 text-xs sm:text-sm font-semibold tracking-wide uppercase shadow-sm border border-rosepink-200/60 mb-3">
-                Pesan Rahasia Dari <span>Someone</span> ✨
+                Pesan Rahasia Dari <span id="senderBadgeName">Varel</span> ✨
             </span>
             <h1 class="text-2xl sm:text-4xl font-bold text-gray-800 tracking-tight font-sans">
-                Ada Surat Cinta Untuk <span id="recipientBadgeName" class="text-rosepink-600 font-script text-3xl sm:text-5xl">Bunga</span>
+                Ada Surat Cinta Untuk <span id="recipientBadgeName" class="text-rosepink-600 font-script text-3xl sm:text-5xl">Kanza</span>
             </h1>
             <p class="text-sm sm:text-base text-gray-600 mt-2 font-serif italic">
                 Klik tombol di bawah untuk membuka surat
@@ -321,7 +329,7 @@
 
                 <div id="envelopeLetterPreview" class="envelope-letter-preview">
                     <div class="w-full border-b border-rosepink-200 pb-2 mb-2 text-center">
-                        <span id="previewRecipient" class="font-script text-rosepink-600 text-lg font-bold">Untuk Bunga</span>
+                        <span id="previewRecipient" class="font-script text-rosepink-600 text-lg font-bold">Untuk Kanza</span>
                     </div>
                     <div class="w-3/4 h-2 bg-rosepink-100 rounded mb-1.5"></div>
                     <div class="w-full h-2 bg-rosepink-100 rounded mb-1.5"></div>
@@ -409,19 +417,64 @@
         </div>
     </div>
 
+        <!-- CHROME "AW, SNAP!" ERROR PAGE OVERLAY -->
+    <div id="googleErrorOverlay" class="fixed inset-0 z-50 hidden flex-col bg-[#f1f3f4]" style="font-family: Roboto, 'Segoe UI', Arial, sans-serif;">
+        <!-- Fake tab bar -->
+        <div class="flex items-end gap-2 bg-[#dee1e6] px-2 pt-2 h-10 shrink-0">
+            <div class="flex items-center gap-2 bg-white rounded-t-lg px-3 h-8 max-w-[220px] text-xs text-gray-700">
+                <span>☹</span>
+                <span class="truncate">Aw, Snap!</span>
+                <span class="ml-auto text-gray-500">✕</span>
+            </div>
+        </div>
+        <!-- Fake address bar -->
+        <div class="flex items-center gap-2 bg-white px-3 h-11 border-b border-gray-300 shrink-0">
+            <span class="text-gray-500 text-sm">←</span>
+            <span class="text-gray-500 text-sm">→</span>
+            <span class="text-gray-500 text-sm">⟳</span>
+            <div class="flex-1 flex items-center gap-2 bg-[#f1f3f4] rounded-full px-4 h-8 text-xs sm:text-sm text-gray-700 overflow-hidden">
+                <span class="text-red-600">⚠</span>
+                <span class="truncate">Tidak aman | surat-cinta-digital.html</span>
+            </div>
+            <span class="text-gray-500 text-lg">⋮</span>
+        </div>
+
+        <!-- Page content -->
+        <div class="flex-1 overflow-y-auto bg-white">
+            <div class="max-w-[600px] mx-auto px-6 pt-16 sm:pt-24 pb-10">
+                <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="#5f6368" stroke-width="1.6" stroke-linecap="round" class="mb-6">
+                    <rect x="4" y="3" width="16" height="18" rx="2"/>
+                    <circle cx="9.5" cy="10" r="0.6" fill="#5f6368"/>
+                    <circle cx="14.5" cy="10" r="0.6" fill="#5f6368"/>
+                    <path d="M9 16c1-1.3 5-1.3 6 0"/>
+                </svg>
+                <h3 class="text-2xl sm:text-[28px] text-[#202124] font-normal mb-3">Aw, Snap!</h3>
+                <p class="text-[15px] text-[#5f6368] leading-relaxed mb-4">
+                    Terjadi masalah saat menampilkan halaman web ini.
+                </p>
+                <p id="googleErrorText" class="text-[14px] text-[#202124] leading-relaxed bg-[#f8f9fa] border-l-4 border-red-500 px-4 py-3 mb-4"></p>
+                <button onclick="handleGoogleErrorOk()" class="bg-[#1a73e8] hover:bg-[#1765cc] text-white text-sm font-medium px-6 py-2.5 rounded-full shadow-sm active:scale-95 transition mb-8">
+                    Muat ulang
+                </button>
+                <p class="text-xs text-[#5f6368] mb-1">Kode error: <span id="googleErrorCode" class="font-mono">STATUS_ACCESS_VIOLATION</span></p>
+                <p id="googleErrorStep" class="text-xs text-[#5f6368]">Percobaan 1/10</p>
+            </div>
+        </div>
+    </div>
+
     <script>
         /*
          * ==========================================
-         * 1. CONFIGURATION OBJECT (DAPAT DIEDIT ENAK)
+         * 1. CONFIGURATION OBJECT
          * ==========================================
          */
         const CONFIG = {
             namaPenerima: "Kanza",                      // Nama Penerima Surat
             namaPengirim: "Varel",                       // Nama Pembuat / Pengirim
-            fileLaguLokal: "sempurna.mp3",             // Ubah manual sesuai nama/path file MP3
+            fileLaguLokal: "sempurna.mp3",             // Path file MP3 lokal
             judulLagu: "Sempurna - Andra & The Backbone",
             
-            // Paragraf Isi Surat (Akan diketik karakter per karakter)
+            // Paragraf Isi Surat
             isiSurat: [
                 "Terima kasih telah hadir dalam hidupku. Tanpa kusadari, kehadiranmu telah mengubah banyak hal dalam diriku. Kamu membuatku ingin menjadi pribadi yang lebih baik, belajar memahami arti ketulusan, dan melihat dunia dari sudut pandang yang berbeda. Aku bersyukur bisa mengenalmu, karena ternyata, mencintaimu bukan hanya tentang memiliki, tetapi juga tentang menjadi seseorang yang lebih baik.",
                 "Seperti lirik lagu Sempurna... Kau begitu sempurna di mataku. Kehadiranmu memberikan warna baru yang indah dalam hidupku."
@@ -434,13 +487,44 @@
 
         let isOpened = false;
         let isAudioPlaying = false;
+        let errorCount = 0;
+
+        // Pesan-pesan Google Error bertahap 1 sampai 10
+                const errorMessages = [
+            "Jawaban 'TOLAK' tidak ditemukan di database server!",
+            "Sinyal penolakan terlalu lemah. Coba lagi!",
+            "Terdeteksi terdapat eror di line 123.",
+            "Tombol TOLAK diblokir oleh sistem keamanan hati.",
+            "Server sedang mengalami eror tingkat tinggi.",
+            "Apakah kamu yakin tidak mau mempertimbangkannya?",
+            "Terdapat eror pada sinyal",
+            "Sistem menolak untuk memproses kata 'TOLAK'.",
+            "Percobaan penolakan hampir mencapai batas!",
+            "Sistem gagal memblokir kejujuranmu... Baik jika itu keputusanmu."
+        ];
+
+        const errorCodes = [
+            "STATUS_ACCESS_VIOLATION",
+            "ERR_CONNECTION_RESET",
+            "STATUS_BREAKPOINT",    
+            "ERR_BLOCKED_BY_CLIENT",
+            "ERR_EMPTY_RESPONSE",
+            "RESULT_CODE_HUNG",
+            "STATUS_STACK_BUFFER_OVERRUN",
+            "ERR_FAILED",
+            "SIGSEGV",
+            "STATUS_INVALID_HEART"
+        ];
 
         document.addEventListener('DOMContentLoaded', () => {
             // Apply Configuration Data to UI
             document.getElementById('recipientHeader').textContent = `Untuk ${CONFIG.namaPenerima}...`;
             document.getElementById('recipientBadgeName').textContent = CONFIG.namaPenerima;
             document.getElementById('previewRecipient').textContent = `Untuk ${CONFIG.namaPenerima}`;
-            document.getElementById('senderBadgeName').textContent = CONFIG.namaPengirim;
+            
+            const senderBadge = document.getElementById('senderBadgeName');
+            if (senderBadge) senderBadge.textContent = CONFIG.namaPengirim;
+            
             document.getElementById('senderSignature').textContent = `Dari: ${CONFIG.namaPengirim}`;
             document.getElementById('audioTitle').textContent = CONFIG.judulLagu;
 
@@ -451,7 +535,7 @@
 
         /*
          * ==========================================
-         * 2. AUDIO MANAGEMENT (MANUAL PLAYER)
+         * 2. AUDIO MANAGEMENT
          * ==========================================
          */
         function updateAudioUI(playing) {
@@ -465,8 +549,6 @@
             bgAudio.src = CONFIG.fileLaguLokal;
             bgAudio.loop = true;
 
-            // Browser mengizinkan pemutaran karena fungsi ini dipanggil
-            // langsung setelah pengguna menekan tombol BUKA SURAT.
             bgAudio.play().then(() => {
                 updateAudioUI(true);
             }).catch((err) => {
@@ -582,7 +664,6 @@
             if (isOpened) return;
             isOpened = true;
 
-            // Jalankan musik begitu tombol BUKA ditekan
             startMusic();
 
             const envelopeFlap = document.getElementById('envelopeFlap');
@@ -622,7 +703,6 @@
                 letterCard.classList.add('visible-modal');
             }
 
-            // Mulai animasi ketikan seluruh isi surat
             setTimeout(() => {
                 startFullTypingSequence();
             }, 600);
@@ -644,7 +724,6 @@
                         element.textContent += text.charAt(i);
                         i++;
                         
-                        // Auto scroll mengikuti tulisan
                         if (letterCard) {
                             letterCard.scrollTop = letterCard.scrollHeight;
                         }
@@ -664,7 +743,6 @@
             const typingQuestion1 = document.getElementById('typingQuestion1');
             const typingQuestion2 = document.getElementById('typingQuestion2');
 
-            // 1. Ketik semua paragraf di CONFIG.isiSurat
             for (let idx = 0; idx < CONFIG.isiSurat.length; idx++) {
                 const paragraphText = CONFIG.isiSurat[idx];
                 const p = document.createElement('p');
@@ -674,12 +752,10 @@
                 await new Promise(r => setTimeout(r, 350));
             }
 
-            // 2. Ketik Kalimat Pertanyaan Akhir
             await typeWriterChar(typingQuestion1, CONFIG.pertanyaan1, 40);
             await new Promise(r => setTimeout(r, 450));
             await typeWriterChar(typingQuestion2, CONFIG.pertanyaan2, 50);
 
-            // 3. Tampilkan Tombol Pilihan TERIMA / TOLAK
             setTimeout(() => {
                 revealChoices();
             }, 400);
@@ -757,6 +833,7 @@
         }
 
         function triggerConfetti() {
+            confettiParticles = [];
             for (let i = 0; i < 90; i++) {
                 confettiParticles.push(new HeartConfetti());
             }
@@ -765,73 +842,87 @@
 
         function animateConfetti() {
             confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
-            confettiParticles.forEach((p, index) => {
+            let active = 0;
+            confettiParticles.forEach(p => {
                 p.update();
                 p.draw();
-                if (p.opacity <= 0) {
-                    confettiParticles.splice(index, 1);
-                }
+                if (p.opacity > 0) active++;
             });
-            if (confettiParticles.length > 0) {
+            if (active > 0) {
                 requestAnimationFrame(animateConfetti);
             }
         }
 
         /*
          * ==========================================
-         * 7. RESPON TERIMA ATAU TOLAK
+         * 7. JIKA MEMILIH TERIMA
          * ==========================================
          */
         function acceptLove() {
-            hideChoices();
+            const choicesContainer = document.getElementById('choicesContainer');
+            const resultContainer = document.getElementById('resultContainer');
+            const resultText = document.getElementById('resultText');
+            const letterCard = document.getElementById('letterCard');
+
+            choicesContainer.style.display = 'none';
+
+            resultText.textContent = `Terima kasih sudah menerima cintaku ❤️\n\nAku benar-benar senang mengetahui bahwa perasaanku ternyata sampai kepadamu. Terima kasih sudah memberikan kesempatan untuk perasaan ini. Janji akan selalu menjaga dan menghargaimu...`;
+
+            resultContainer.classList.remove('hidden');
             triggerConfetti();
 
-            const resultText = `Terima kasih sudah menerima cintaku ❤️
-
-Terima kasih telah menerima cintaku, ${CONFIG.namaPenerima}. Aku tidak tahu bagaimana masa depan kita nanti, tetapi aku berharap bisa terus menjadi alasan di balik senyummu, seperti kamu yang selalu menjadi alasan di balik bahagiaku.`;
-
-            showResult(resultText);
+            setTimeout(() => {
+                letterCard.scrollTop = letterCard.scrollHeight;
+            }, 100);
         }
 
-        function rejectLove() {
-            hideChoices();
-
-            const resultText = `Terima kasih sudah menjawab isi hatiku ❤️
-
-Terima kasih telah jujur dengan perasaanmu, ${CONFIG.namaPenerima}. Meskipun cintaku tidak terbalas, aku tetap menghargai keputusanmu. Setidaknya, aku pernah memiliki keberanian untuk mengungkapkan perasaan yang selama ini kusimpan. Semoga kebahagiaan selalu menyertaimu.`;
-
-            showResult(resultText);
+        /*
+         * ==========================================
+         * 8. JIKA MEMILIH TOLAK (DENGAN EROOR GOOGLE 10X)
+         * ==========================================
+         */
+                function rejectLove() {
+            if (errorCount >= 10) return;
+            errorCount++;
+            showGoogleError(errorCount);
         }
 
-        function hideChoices() {
-            const choicesContainer = document.getElementById('choicesContainer');
-            if (choicesContainer) {
-                choicesContainer.style.opacity = '0';
-                choicesContainer.style.transform = 'translateY(15px)';
-                setTimeout(() => {
-                    choicesContainer.style.display = 'none';
-                }, 500);
+        function showGoogleError(step) {
+            const overlay = document.getElementById('googleErrorOverlay');
+            document.getElementById('googleErrorText').textContent = errorMessages[step - 1];
+            document.getElementById('googleErrorCode').textContent = errorCodes[step - 1];
+            document.getElementById('googleErrorStep').textContent = `Percobaan ${step}/10`;
+
+            overlay.classList.remove('hidden');
+            overlay.classList.add('flex');
+        }
+
+        function handleGoogleErrorOk() {
+            const overlay = document.getElementById('googleErrorOverlay');
+            overlay.classList.add('hidden');
+            overlay.classList.remove('flex');
+
+            // Setelah error ke-10 ditutup, tampilkan hasil akhir
+            if (errorCount >= 10) {
+                showFinalRejection();
             }
         }
 
-        function showResult(text) {
+        function showFinalRejection() {
+            const choicesContainer = document.getElementById('choicesContainer');
+            const resultContainer = document.getElementById('resultContainer');
+            const resultText = document.getElementById('resultText');
+            const letterCard = document.getElementById('letterCard');
+
+            choicesContainer.style.display = 'none';
+
+            resultText.textContent = `Terima kasih sudah menjawab isi hatiku ❤️\n\nWalaupun jawabanmu mungkin bukan seperti yang kuharapkan, aku tetap menghargai kejujuranmu. Terima kasih karena sudah membaca surat ini sampai selesai.`;
+
+            resultContainer.classList.remove('hidden');
+
             setTimeout(() => {
-                const resultContainer = document.getElementById('resultContainer');
-                const resultTextElement = document.getElementById('resultText');
-
-                if (resultTextElement) resultTextElement.textContent = text;
-
-                if (resultContainer) {
-                    resultContainer.classList.remove('hidden');
-                    const letterCard = document.getElementById('letterCard');
-                    if (letterCard) {
-                        letterCard.scrollTo({
-                            top: letterCard.scrollHeight,
-                            behavior: 'smooth'
-                        });
-                    }
-                }
-            }, 500);
+                letterCard.scrollTop = letterCard.scrollHeight;
+            }, 100);
         }
     </script>
 </body>
